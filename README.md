@@ -1,6 +1,6 @@
 # @yangss/create-app
 
-## Scaffolding a Vite Project
+## Scaffolding Vite Projects with Some Pre-configured Features
 With NPM:
 ```sh
 npm init @yangss/app
