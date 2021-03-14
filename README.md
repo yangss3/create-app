@@ -19,5 +19,5 @@ npm init @yangss/app my-vue-app --template pc
 
 Currently supported template presets include:
 
-- base
-- pc
+- [base](https://github.com/yangss3/create-app/blob/master/templates/base/README.md)
+- [pc](https://github.com/yangss3/create-app/blob/master/templates/pc/README.md)
