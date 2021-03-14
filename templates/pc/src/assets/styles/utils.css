@@ -1,0 +1,32 @@
+.center-box {
+  @apply flex items-center justify-center;
+}
+
+.icon {
+  transform: translateY(0) !important;
+}
+
+.clicked-icon {
+  @apply cursor-pointer focus:outline-none;
+}
+
+.text-color {
+  @apply text-gray-800 dark:text-gray-200;
+}
+
+.bg-color {
+  @apply bg-white dark:bg-gray-800;
+}
+
+.theme {
+  @apply bg-white text-gray-800 dark:(text-gray-200 bg-gray-800);
+}
+
+.inline-form {
+  &.ant-form {
+    @apply flex flex-wrap;
+    & .ant-form-item {
+      @apply w-1/2;
+    }
+  }
+}

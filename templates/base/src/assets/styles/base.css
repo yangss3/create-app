@@ -1,0 +1,7 @@
+#app {
+  @apply h-screen;
+}
+
+a {
+  @apply text-blue-500;
+}

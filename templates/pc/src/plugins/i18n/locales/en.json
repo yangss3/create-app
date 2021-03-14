@@ -1,0 +1,27 @@
+{
+  "welcome": "Welcome",
+  "profile": "Profile",
+  "login": "Login",
+  "logout": "Logout",
+  "username": "USERNAME",
+  "phone": "PHONE NUMBER",
+  "email": "EMAIL",
+  "operation": "OPERATION",
+  "password": "Password",
+  "pagination": {
+    "total": "Total",
+    "item": "item(s)"
+  },
+  "role": "Role",
+  "btn": {
+    "create": "CREATE",
+    "delete": "DELETE",
+    "edit": "EDIT",
+    "view": "VIEW",
+    "import": "IMPORT",
+    "export": "EXPORT",
+    "search": "SEARCH",
+    "upload": "UPLOAD",
+    "download": "DOWNLOAD"
+  }
+}

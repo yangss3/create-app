@@ -1,0 +1,10 @@
+.ant-form-item-control-wrapper {
+  @apply w-full;
+}
+
+.ant-table-wrapper {
+  @apply bg-white rounded overflow-hidden;
+  & .ant-table-thead > tr > th {
+    @apply theme font-semibold;
+  }
+}
