@@ -1,0 +1,34 @@
+{
+  "welcome": "Welcome",
+  "profile": "Profile",
+  "login": "Login",
+  "logout": "Logout",
+  "username": "Username",
+  "phone": "PHONE NUMBER",
+  "email": "EMAIL",
+  "operation": "OPERATION",
+  "password": "Password",
+  "home": "Home",
+  "workbench": "Workbench",
+  "me": "Me",
+  "theme": "Theme",
+  "language": "Language",
+  "select-language": "Select language",
+  "cancel": "Cancel",
+  "pagination": {
+    "total": "Total",
+    "item": "item(s)"
+  },
+  "role": "Role",
+  "btn": {
+    "create": "CREATE",
+    "delete": "DELETE",
+    "edit": "EDIT",
+    "view": "VIEW",
+    "import": "IMPORT",
+    "export": "EXPORT",
+    "search": "SEARCH",
+    "upload": "UPLOAD",
+    "download": "DOWNLOAD"
+  }
+}

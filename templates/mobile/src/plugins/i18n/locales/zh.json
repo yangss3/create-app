@@ -1,0 +1,34 @@
+{
+  "welcome": "欢迎登录",
+  "profile": "个人中心",
+  "login": "登录",
+  "logout": "退出登录",
+  "username": "用户名",
+  "phone": "电话号码",
+  "email": "邮箱",
+  "operation": "操作",
+  "password": "密码",
+  "home": "主页",
+  "workbench": "工作台",
+  "me": "我的",
+  "theme": "主题",
+  "language": "语言",
+  "select-language": "选择语言",
+  "cancel": "取消",
+  "pagination": {
+    "total": "共",
+    "item": "条"
+  },
+  "role": "角色",
+  "btn": {
+    "create": "创建",
+    "delete": "删除",
+    "edit": "编辑",
+    "view": "查看",
+    "import": "导入",
+    "export": "导出",
+    "search": "查询",
+    "upload": "上传",
+    "download": "下载"
+  }
+}
