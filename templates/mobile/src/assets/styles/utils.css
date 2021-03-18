@@ -24,12 +24,25 @@
 
 .layout {
   @apply flex flex-col h-full relative;
+  .layout-header {
+    @apply relative;
+    .van-nav-bar {
+      @apply bg-gray-50;
+    }
+  }
+  .layout-footer {
+    .van-tabbar {
+      @apply bg-gray-50;
+      .van-tabbar-item--active {
+        @apply bg-gray-50;
+      }
+    }
+  }
+  .layout-content {
+    @apply flex-1 overflow-auto relative;
+  }
 }
 
-.layout-header, .layout-footer {
-  @apply relative shadow;
-}
 
-.layout-content {
-  @apply flex-1 overflow-auto relative;
-}
+
+

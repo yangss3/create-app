@@ -10,8 +10,8 @@
     <TheLayoutFooter>
       <van-tabbar route :fixed="false">
         <van-tabbar-item name="home" icon="home-o" to="/">{{$t('home')}}</van-tabbar-item>
-        <van-tabbar-item name="workbench" icon="search" to="/workbench">{{$t('workbench')}}</van-tabbar-item>
-        <van-tabbar-item name="user" icon="friends-o" to="/user">{{$t('me')}}</van-tabbar-item>
+        <van-tabbar-item name="workbench" icon="apps-o" to="/workbench">{{$t('workbench')}}</van-tabbar-item>
+        <van-tabbar-item name="user" icon="friends-o" to="/me">{{$t('me')}}</van-tabbar-item>
       </van-tabbar>
     </TheLayoutFooter>
   </TheLayout>

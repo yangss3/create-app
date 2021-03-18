@@ -19,37 +19,6 @@ mock.onPost('/api/login').reply((config) => {
   ]
 })
 
-mock.onGet('/api/menus').reply((config) => {
-  const language = config.headers['Accept-Language']
-  const isZh = language === 'zh'
-
-  return [
-    200,
-    {
-      success: true,
-      data: [
-        {
-          id: 'a',
-          path: '#system-management',
-          name: 'SystemManagement',
-          icon: 'UserOutlined',
-          title: isZh ? '系统管理' : 'System Management',
-          children: [
-            {
-              id: 'aa',
-              parentId: 'a',
-              path: '/',
-              name: 'UserManagement',
-              title: isZh ? '用户管理' : 'User Management'
-            }
-          ]
-        }
-      ],
-      message: ''
-    }
-  ]
-})
-
 mock.onGet('/api/user').reply((config) => {
   const language = config.headers['Accept-Language']
   const isZh = language === 'zh'
@@ -84,28 +53,3 @@ mock.onPost('/api/logout').reply((config) => {
   ]
 })
 
-mock.onGet('/api/userList').reply((config) => {
-  const language = config.headers['Accept-Language']
-  const isZh = language === 'zh'
-
-  return [
-    200,
-    {
-      success: true,
-      data: {
-        list: Array(32)
-          .fill(0)
-          .map((_, i) => ({
-            id: i + 1,
-            username: 'Nicholas' + i,
-            email: 'nicholas@gmail.com',
-            photo: 'https://picsum.photos/100',
-            role: ['ADMIN', 'USER'][i % 2],
-            status: false,
-            createdDate: '2020-01-12'
-          })),
-        total: 30
-      }
-    }
-  ]
-})
