@@ -10,10 +10,7 @@ const path_1 = __importDefault(require("path"));
 const fs_extra_1 = __importDefault(require("fs-extra"));
 const argv = minimist_1.default(process.argv.slice(2));
 const cwd = process.cwd();
-const TEMPLATES = {
-    base: 'master',
-    pc: 'pc'
-};
+const TEMPLATES = ['base', 'pc', 'mobile'];
 async function init() {
     let targetDir = argv._[0];
     if (!targetDir) {
@@ -45,7 +42,7 @@ async function init() {
     let message = 'Select a template:';
     let isValidTemplate = false;
     if (typeof template === 'string') {
-        isValidTemplate = Object.keys(TEMPLATES).includes(template);
+        isValidTemplate = TEMPLATES.includes(template);
         message = `${template} isn't a valid template. Please choose from below:`;
     }
     if (!template || !isValidTemplate) {
@@ -53,7 +50,7 @@ async function init() {
             type: 'list',
             name: 't',
             message,
-            choices: Object.keys(TEMPLATES)
+            choices: TEMPLATES
         });
         template = t;
     }

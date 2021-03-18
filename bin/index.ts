@@ -6,10 +6,7 @@ import fs from 'fs-extra'
 
 const argv = minimist(process.argv.slice(2))
 const cwd = process.cwd()
-const TEMPLATES = {
-  base: 'master',
-  pc: 'pc'
-}
+const TEMPLATES = ['base', 'pc', 'mobile']
 
 
 async function init() {
@@ -42,12 +39,12 @@ async function init() {
     }
   }
 
-  let template : keyof typeof TEMPLATES = argv.t || argv.template
+  let template: string = argv.t || argv.template
   let message = 'Select a template:'
   let isValidTemplate = false
 
   if (typeof template === 'string') {
-    isValidTemplate = Object.keys(TEMPLATES).includes(template)
+    isValidTemplate = TEMPLATES.includes(template)
     message = `${template} isn't a valid template. Please choose from below:`
   }
 
@@ -56,7 +53,7 @@ async function init() {
       type: 'list',
       name: 't',
       message,
-      choices: Object.keys(TEMPLATES)
+      choices: TEMPLATES
     })
     template = t
   }
