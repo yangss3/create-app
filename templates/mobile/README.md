@@ -1,20 +1,18 @@
-# Vite 2 + Vue 3 + Ant Design Vue
+# Vite 2 + Vue 3 + Vant
 
 ## Features
 
 - [x] Vue 3
 - [x] Vite 2
 - [x] TypeScript
-- [x] AntDesignVue for UI library
+- [x] Vant for UI library
 - [x] `vite-plugin-windicss` for TailwindCSS
 - [x] `vite-plugin-components` for component auto importing
 - [x] `vite-plugin-icons` for icons
-- [x] Axios
+- [x] Mobile adaptation base on Viewport
+- [x] Axios for HTTP requests
 - [x] Mock backend API in DEV
 - [x] I18n
 - [x] ESLint
 - [x] Prettier
 - [x] Conventional commits
-- [x] Dark theme
-- [ ] SSR
-- [ ] PWA
