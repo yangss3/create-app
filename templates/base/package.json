@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview",
     "cm": "cz"
   },
@@ -36,7 +36,8 @@
     "vite": "^2.0.1",
     "vite-plugin-components": "^0.8.2",
     "vite-plugin-icons": "^0.3.2",
-    "vite-plugin-windicss": "^0.8.2"
+    "vite-plugin-windicss": "^0.8.2",
+    "vue-tsc": "^0.0.14"
   },
   "config": {
     "commitizen": {
