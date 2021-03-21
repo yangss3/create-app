@@ -5,7 +5,7 @@
       msg="A starter template based on Vite 2 and Vue 3 with a rich of features"
     />
     <p class="space-x-4 mt-5">
-      <span class="text-blue-500 text-xl">{{ $t('hello') }}</span>
+      <span class="text-blue-500 text-xl">{{ t('hello') }}</span>
       <button
         class="px-4 py-2 rounded bg-blue-800 text-gray-100 hover:bg-blue-700"
         @click="switchLocale"
@@ -34,7 +34,7 @@ import { useDark, useToggle } from '@vueuse/core'
 export default defineComponent({
   name: 'App',
   setup: () => {
-    const { locale } = useI18n()
+    const { t, locale } = useI18n()
 
     function switchLocale() {
       locale.value = locale.value === 'zh' ? 'en' : 'zh'
@@ -47,7 +47,8 @@ export default defineComponent({
       switchLocale,
       locale,
       isDark,
-      toggleDark
+      toggleDark,
+      t
     }
   }
 })

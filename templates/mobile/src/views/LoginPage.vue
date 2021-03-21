@@ -6,24 +6,24 @@
       <octicon:logo-github-16 class="text-8xl" />
     </div>
     <div class="mx-10">
-      <van-field 
+      <van-field
         v-model="form.username"
-        :label="$t('username')" 
+        :label="t('username')"
         label-width="4.5rem"
       />
-      <van-field 
+      <van-field
         v-model="form.password"
-        :label="$t('password')"
+        :label="t('password')"
         label-width="4.5rem"
-        type="password" 
+        type="password"
       />
-      <van-button 
-        block 
-        round 
+      <van-button
+        block
+        round
         class="mt-5"
         @click="login"
       >
-        {{$t('login')}}
+        {{t('login')}}
       </van-button>
     </div>
   </div>
@@ -34,6 +34,7 @@ import { useStore } from '@/store'
 import { useRouter } from 'vue-router'
 import { defineComponent, reactive } from 'vue'
 import { http } from '@/service'
+import { useI18n } from '@yangss/vue3-i18n'
 export default defineComponent({
   name: 'LoginPage',
   setup() {
@@ -54,9 +55,12 @@ export default defineComponent({
       router.replace('/')
     }
 
+    const { t } = useI18n()
+
     return {
       form,
-      login
+      login,
+      t
     }
   }
 

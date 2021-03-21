@@ -35,12 +35,12 @@
         <a-menu @click="handleAction">
           <a-menu-item key="profile">
             <uil:user />
-            <span style="margin-left: 8px">{{ $t('profile') }}</span>
+            <span style="margin-left: 8px">{{ t('profile') }}</span>
           </a-menu-item>
           <a-menu-divider />
           <a-menu-item key="logout">
             <ant-design:logout-outlined />
-            <span style="margin-left: 8px">{{ $t('logout') }}</span>
+            <span style="margin-left: 8px">{{ t('logout') }}</span>
           </a-menu-item>
         </a-menu>
       </template>
@@ -69,7 +69,7 @@ export default defineComponent({
     // Language
     const languages = reactive(locales)
     const selectedLanguageKey = ref([store.state.locale])
-    const { locale } = useI18n()
+    const { locale, t } = useI18n()
     function switchLanguage(p: { key: Locale; keyPath: Locale[] }) {
       locale.value = p.key
       store.commit('UPDATE_LOCALE', p.key)
@@ -92,6 +92,7 @@ export default defineComponent({
     }
 
     return {
+      t,
       selectedLanguageKey,
       languages,
       switchLanguage,

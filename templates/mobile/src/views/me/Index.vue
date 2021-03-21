@@ -7,7 +7,7 @@
       </div>
     </TheLayoutHeader>
     <TheLayoutContent class="bg-gray-100 pt-10px">
-      <van-cell :title="$t('language')" is-link :value="language" @click="show = true">
+      <van-cell :title="t('language')" is-link :value="language" @click="show = true">
         <template #icon>
           <ion:language class="relative top-1.3 mr-2 text-blue-500"/>
         </template>
@@ -19,17 +19,17 @@
           type="primary"
           @click="logout"
         >
-          {{$t('logout')}}
+          {{t('logout')}}
         </van-button>
       </div>
-      
+
       <van-action-sheet
         v-model:show="show"
-        :title="$t('select-language')"
+        :title="t('select-language')"
         :actions="actions"
-        :cancel-text="$t('cancel')"
+        :cancel-text="t('cancel')"
         close-on-click-action
-        @select="swithLanguage"
+        @select="switchLanguage"
       />
     </TheLayoutContent>
   </TheLayout>
@@ -49,10 +49,10 @@ export default defineComponent({
       { name: 'English', id: 'en' }
     ])
 
-    const  { locale } = useI18n()
+    const  { locale, t } = useI18n()
     const language = ref('')
 
-    function swithLanguage({ id }: { name: string; id: 'zh' | 'en' }) {
+    function switchLanguage({ id }: { name: string; id: 'zh' | 'en' }) {
       locale.value = id
     }
 
@@ -79,8 +79,9 @@ export default defineComponent({
       show,
       actions,
       language,
-      swithLanguage,
-      logout
+      switchLanguage,
+      logout,
+      t
     }
   }
 })

@@ -3,8 +3,8 @@
   <TheTable :columns="columns" :data-source="data" fixed-height>
     <template #operation>
       <span class="space-x-2">
-        <a>{{ $t('btn.edit') }}</a>
-        <a>{{ $t('btn.delete') }}</a>
+        <a>{{ t('btn.edit') }}</a>
+        <a>{{ t('btn.delete') }}</a>
       </span>
     </template>
   </TheTable>
@@ -59,6 +59,7 @@ export default defineComponent({
       }
     ]
     return {
+      t,
       columns,
       operations: [
         { action: 'create', callback: () => {} },

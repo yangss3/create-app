@@ -22,7 +22,7 @@
         <template #overlay>
           <a-menu @click="handleMore">
             <a-menu-item key="close-others">{{
-              $t('close-other-tabs')
+              t('close-other-tabs')
             }}</a-menu-item>
           </a-menu>
         </template>
@@ -35,6 +35,7 @@
 import { useStore } from '@/store'
 import { defineComponent, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from '@yangss/vue3-i18n'
 
 interface Pane {
   key: string
@@ -121,12 +122,15 @@ export default defineComponent({
       { immediate: true }
     )
 
+    const { t } = useI18n()
+
     return {
       activeKey,
       panes,
       changeTab,
       closeTab,
-      handleMore
+      handleMore,
+      t
     }
   }
 })

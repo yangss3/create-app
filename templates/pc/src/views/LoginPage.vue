@@ -4,14 +4,14 @@
     <div class="w-3/5 flex justify-center items-center bg-gray-100">
       <div class="w-4/5 xl:w-1/2 p-10 shadow-lg rounded-md bg-white">
         <h1 class="text-center font-mono text-4xl mb-10">
-          {{ $t('welcome') }}
+          {{ t('welcome') }}
         </h1>
         <a-form class="mx-6">
           <a-form-item>
             <a-input
               v-model:value="form.username"
               size="large"
-              :placeholder="$t('username')"
+              :placeholder="t('username')"
             >
               <template #prefix><uil:user /></template>
             </a-input>
@@ -20,14 +20,14 @@
             <a-input-password
               v-model:value="form.password"
               size="large"
-              :placeholder="$t('password')"
+              :placeholder="t('password')"
             >
               <template #prefix><ri:lock-password-line /></template>
             </a-input-password>
           </a-form-item>
           <a-form-item>
             <a-button block type="primary" size="large" @click="login">
-              {{ $t('login') }}
+              {{ t('login') }}
             </a-button>
           </a-form-item>
         </a-form>
@@ -42,6 +42,7 @@ import { useStore } from '@/store'
 import { Auth } from '@/utils/types'
 import { defineComponent, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from '@yangss/vue3-i18n'
 
 export default defineComponent({
   name: 'LoginPage',
@@ -59,9 +60,12 @@ export default defineComponent({
       router.replace('/')
     }
 
+    const { t } = useI18n()
+
     return {
       form,
-      login
+      login,
+      t
     }
   }
 })
