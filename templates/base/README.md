@@ -10,7 +10,6 @@
 - [x] `vite-plugin-icons` for icons
 - [x] I18n
 - [x] ESLint
-- [x] Prettier
 - [x] Conventional commits
 - [x] Dark theme
 - [ ] SSR

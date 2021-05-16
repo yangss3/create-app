@@ -22,6 +22,8 @@
     "export": "EXPORT",
     "search": "SEARCH",
     "upload": "UPLOAD",
-    "download": "DOWNLOAD"
+    "download": "DOWNLOAD",
+    "confirm": "CONFIRM",
+    "cancel": "CANCEL"
   }
 }

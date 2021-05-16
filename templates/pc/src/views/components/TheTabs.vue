@@ -21,9 +21,11 @@
         <vaadin:ellipsis-dots-h class="clicked-icon" />
         <template #overlay>
           <a-menu @click="handleMore">
-            <a-menu-item key="close-others">{{
-              t('close-other-tabs')
-            }}</a-menu-item>
+            <a-menu-item key="close-others">
+              {{
+                t('close-other-tabs')
+              }}
+            </a-menu-item>
           </a-menu>
         </template>
       </a-dropdown>
@@ -44,7 +46,7 @@ interface Pane {
 
 export default defineComponent({
   name: 'TheTabs',
-  setup() {
+  setup () {
     const route = useRoute()
     const router = useRouter()
     const store = useStore()

@@ -1,8 +1,8 @@
 <template>
-  <div class="space-x-5 flex items-center justify-end">
+  <div class="space-x-5 flex items-center justify-end h-full">
     <!-- Languages -->
     <a-dropdown :trigger="['click']">
-      <ion:language class="clicked-icon text-xl mt-5px" />
+      <ion:language class="clicked-icon text-xl" />
       <template #overlay>
         <a-menu :selected-keys="selectedLanguageKey" @click="switchLanguage">
           <a-menu-item v-for="(label, key) in languages" :key="key">
@@ -17,7 +17,7 @@
     </a-dropdown>
 
     <!-- theme -->
-    <span class="text-xl cursor-pointer" @click="toggleTheme">
+    <span class="text-xl cursor-pointer h-6" @click="toggleTheme">
       <ic:outline-wb-sunny v-if="isDark" />
       <uil:moon v-else />
     </span>
@@ -26,9 +26,9 @@
     <a-dropdown :trigger="['click']" class="cursor-pointer center-box">
       <span>
         <a-avatar v-if="user.photo" :src="user.photo" size="large" />
-        <a-avatar v-else
-          ><template #icon> <user-outlined /></template
-        ></a-avatar>
+        <a-avatar
+          v-else
+        ><template #icon> <user-outlined /></template></a-avatar>
         <span class="ml-2 font-semibold">{{ user.username }}</span>
       </span>
       <template #overlay>
@@ -51,7 +51,7 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, ref } from 'vue'
 import { useStore } from '@/store'
-import { locales } from '@/utils/meta'
+import { locales } from '@/utils/constants'
 import { Locale } from '@/utils/types'
 import { http } from '@/service'
 import { useRouter } from 'vue-router'
@@ -62,7 +62,7 @@ type AvatarAction = 'profile' | 'logout'
 
 export default defineComponent({
   name: 'TheNavBar',
-  setup() {
+  setup () {
     const store = useStore()
     const router = useRouter()
 
@@ -70,7 +70,7 @@ export default defineComponent({
     const languages = reactive(locales)
     const selectedLanguageKey = ref([store.state.locale])
     const { locale, t } = useI18n()
-    function switchLanguage(p: { key: Locale; keyPath: Locale[] }) {
+    function switchLanguage (p: { key: Locale; keyPath: Locale[] }) {
       locale.value = p.key
       store.commit('UPDATE_LOCALE', p.key)
       selectedLanguageKey.value = p.keyPath
@@ -80,7 +80,7 @@ export default defineComponent({
     const isDark = useDark()
     const toggleTheme = useToggle(isDark)
 
-    async function handleAction(p: { key: AvatarAction }) {
+    async function handleAction (p: { key: AvatarAction }) {
       switch (p.key) {
         case 'logout':
           await http.post('logout')

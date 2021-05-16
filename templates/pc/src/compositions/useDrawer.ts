@@ -5,23 +5,23 @@ import {
   toRaw,
   ref,
   WritableComputedRef,
-  Ref,
-  ComputedRef
+  Ref
 } from 'vue'
 import { cloneDeep, merge } from 'lodash-es'
 import { useForm } from '@ant-design-vue/use'
 import { validateInfo } from '@ant-design-vue/use/lib/useForm'
 import { RuleFunc, Rule } from '@/utils/types'
 
-export interface ModalProps<T = any> {
+
+export interface DrawerProps<T = any> {
   visible: boolean
   title: string
   type?: string
   data: T
-  confirmCb?: (p?: any) => Promise<void>
+  confirmCb?: (val: any) => Promise<void>
 }
 
-export const modalMixin = {
+export const drawerMixin = {
   props: {
     visible: {
       type: Boolean,
@@ -41,12 +41,11 @@ export const modalMixin = {
 type CB = () => void
 type FormUtils = ReturnType<typeof useForm>
 interface R1<T> {
-  modalVisible: WritableComputedRef<boolean>
+  drawerVisible: WritableComputedRef<boolean>
   state: T
   confirmLoading: Ref<boolean>
   confirm: (p?: any) => Promise<void>
   openCb: (cb: CB) => void
-  footer: ComputedRef<'footer' | null>
 }
 interface R2<T, K> extends R1<T> {
   validateInfos: Record<keyof K, validateInfo>
@@ -54,14 +53,14 @@ interface R2<T, K> extends R1<T> {
 }
 
 /**
- * Modal内表单的逻辑复用
+ * Drawer内表单的逻辑复用
  * @param props
  * @param emit
  * @param stateRaw 表单初始状态对象
  * @param rulesRaw 表单规则配置对象, 可选
  */
 export function useFormState<T extends Record<string, any>>(
-  props: ModalProps<T>,
+  props: DrawerProps<T>,
   emit: (eventName: string, val: any) => void,
   stateRaw: T
 ): R1<T>
@@ -69,7 +68,7 @@ export function useFormState<
   T extends Record<string, any>,
   K extends Partial<Record<keyof T, Rule>>
 >(
-  props: ModalProps<T>,
+  props: DrawerProps<T>,
   emit: (eventName: string, val: any) => void,
   stateRaw: T,
   rulesRaw: K
@@ -78,16 +77,15 @@ export function useFormState<
   T extends Record<string, any>,
   K extends Partial<Record<keyof T, Rule>>
 > (
-  props: ModalProps<T>,
+  props: DrawerProps<T>,
   emit: (eventName: string, val: any) => void,
   stateRaw: T,
   rulesRaw?: K
 ) {
-  const modalVisible = computed({
+  const drawerVisible = computed({
     get: () => props.visible,
     set: (val) => emit('update:visible', val)
   })
-
   const confirmLoading = ref(false)
   const state = reactive(cloneDeep(stateRaw))
 
@@ -100,7 +98,6 @@ export function useFormState<
   const formUtils = rulesRaw
     ? useForm(state as Record<string, any>, reactive(rulesRaw as Record<string, any>))
     : undefined
-
   let cb: CB
 
   /**
@@ -112,16 +109,17 @@ export function useFormState<
     cb = callback
   }
 
-  watch(modalVisible, (val) => {
+  watch(drawerVisible, (val) => {
     if (val) {
       confirmLoading.value = false
 
       // 重置state
       merge(state, cloneDeep(stateRaw))
-      // 合并props.data 到 state
+      // 装载state
       merge(state, cloneDeep(props.data))
 
       formUtils && formUtils.resetFields(state)
+
       cb && cb()
     }
   })
@@ -130,16 +128,16 @@ export function useFormState<
     try {
       formUtils && (await formUtils.validate())
       if (props.confirmCb) {
-        confirmLoading.value = true
         try {
+          confirmLoading.value = true
           await props.confirmCb(toRaw(custom || state))
           confirmLoading.value = false
-          modalVisible.value = false
+          drawerVisible.value = false
         } catch (error) {
           confirmLoading.value = false
         }
       } else {
-        modalVisible.value = false
+        drawerVisible.value = false
       }
     } catch (err) {
       console.error(err)
@@ -147,35 +145,32 @@ export function useFormState<
   }
 
   return {
-    modalVisible,
+    drawerVisible,
     state,
     confirmLoading,
     validateInfos: formUtils?.validateInfos,
     formUtils: formUtils,
     confirm,
-    openCb,
-    footer: computed(() => (props.type === 'view' ? 'footer' : null))
+    openCb
   }
 }
 
-//
-export function useModalState (
-  props: ModalProps<any>,
+export function useDrawerState (
+  props: DrawerProps<any>,
   emit: (eventName: string, val: any) => void
 ) {
-  const modalVisible = computed({
+  const drawerVisible = computed({
     get: () => props.visible,
-    set: (val) => emit('update:visible', val)
+    set: (val: boolean) => emit('update:visible', val)
   })
 
   const confirmLoading = ref(false)
-
   let cb: CB
   function openCb (callback: CB) {
     cb = callback
   }
 
-  watch(modalVisible, (val) => {
+  watch(drawerVisible, (val) => {
     if (val) {
       confirmLoading.value = false
       cb && cb()
@@ -184,44 +179,45 @@ export function useModalState (
 
   async function confirm (custom?: any) {
     if (props.confirmCb) {
-      confirmLoading.value = true
       try {
-        await props.confirmCb(toRaw(custom))
+        confirmLoading.value = true
+        await props.confirmCb(custom)
         confirmLoading.value = false
-        modalVisible.value = false
+        drawerVisible.value = false
       } catch (error) {
         confirmLoading.value = false
       }
     } else {
-      modalVisible.value = false
+      drawerVisible.value = false
     }
   }
 
   return {
-    modalVisible,
+    drawerVisible,
     confirmLoading,
     confirm,
     openCb
   }
 }
 
-export function useModalController<T = any> () {
-  const modal = reactive<ModalProps<T>>({
+export function useDrawerController<T = any> () {
+  const drawer = reactive<DrawerProps<T>>({
     visible: false,
     title: '',
     type: 'add',
-    data: {} as T
+    data: {} as T,
+    confirmCb: (() => {}) as any
   })
 
-  function openModal (title: string, record: any, type = '') {
-    modal.visible = true
-    modal.type = type
-    modal.title = title
-    modal.data = record
+  function openDrawer (title: string, data: any = {}, type?: string) {
+    drawer.visible = true
+    drawer.title = title
+    drawer.type = type
+    drawer.data = data
   }
 
   return {
-    modal,
-    openModal
+    drawer,
+    openDrawer
   }
 }

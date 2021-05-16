@@ -3,11 +3,25 @@
   <TheTable :columns="columns" :data-source="data" fixed-height>
     <template #operation>
       <span class="space-x-2">
-        <a>{{ t('btn.edit') }}</a>
+        <a @click="drawerVisible = true">{{ t('btn.edit') }}</a>
         <a>{{ t('btn.delete') }}</a>
       </span>
     </template>
   </TheTable>
+  <TheDrawer
+    v-model:visible="drawerVisible"
+    title="Drawer"
+    :width="500"
+  >
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero expedita dicta sunt perspiciatis? Recusandae consequatur maxime qui accusantium, optio autem sint quibusdam ex esse natus soluta numquam, tempora nobis pariatur.
+  </TheDrawer>
+  <TheModal
+    v-model:visible="modalVisible"
+    title="Modal"
+    :width="700"
+  >
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi asperiores soluta blanditiis necessitatibus et nisi debitis aspernatur ab aperiam. Ipsa, quis est ab suscipit unde tempore dolore voluptas fuga assumenda.
+  </TheModal>
 </template>
 
 <script lang="ts">
@@ -24,7 +38,7 @@ interface User {
 }
 
 export default defineComponent({
-  setup() {
+  setup () {
     const { t } = useI18n()
 
     const columns = ref<TableColumns<User>>([
@@ -58,11 +72,16 @@ export default defineComponent({
         email: 'yss_2016@outlook.com'
       }
     ]
+
+    const drawerVisible = ref(false)
+    const modalVisible = ref(false)
+
     return {
       t,
       columns,
+      data,
       operations: [
-        { action: 'create', callback: () => {} },
+        { action: 'create', callback: () => { modalVisible.value = true } },
         { action: 'delete', callback: () => {} },
         { action: 'edit', callback: () => {} },
         { action: 'view', callback: () => {} },
@@ -72,7 +91,8 @@ export default defineComponent({
         { action: 'download', callback: () => {} },
         { action: 'search', callback: () => {} }
       ] as Operation[],
-      data
+      drawerVisible,
+      modalVisible
     }
   }
 })

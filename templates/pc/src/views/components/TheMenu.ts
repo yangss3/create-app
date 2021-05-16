@@ -17,7 +17,7 @@ export default defineComponent({
   props: {
     data: {
       type: Array as PropType<Menus>,
-      default: []
+      default: () => []
     },
     collapsed: {
       type: Boolean,
@@ -28,7 +28,7 @@ export default defineComponent({
       default: 'light'
     }
   },
-  setup(props) {
+  setup (props) {
     const openKeys = ref([] as string[])
     let preOpenedKeys: string[] = []
     watch(
@@ -59,7 +59,7 @@ export default defineComponent({
       { immediate: true }
     )
 
-    function createMenuItem(config: MenuItem) {
+    function createMenuItem (config: MenuItem) {
       const children: VNode[] = []
       if (config.icon) {
         children.push(h(resolveComponent(config.icon)))
@@ -69,7 +69,7 @@ export default defineComponent({
       return h(Menu.Item, { key: config.path }, { default: () => children })
     }
 
-    function createSubMenu(config: SubMenu) {
+    function createSubMenu (config: SubMenu) {
       const titleSlots: VNode[] = []
       if (config.icon) {
         titleSlots.push(h(resolveComponent(config.icon)))

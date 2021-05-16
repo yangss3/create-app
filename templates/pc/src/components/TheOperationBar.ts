@@ -24,7 +24,7 @@ export default defineComponent({
     searchKeyword: String
   },
   emits: ['update:searchKeyword', 'search'],
-  setup(props, { emit, attrs, slots }) {
+  setup (props, { emit, attrs, slots }) {
     const { t } = useI18n()
     const operations = props.operations.map((btn) => {
       return h(
@@ -53,13 +53,13 @@ export default defineComponent({
           h('div', { class: 'space-x-2 flex items-center' }, operations),
           props.searchable
             ? h(resolveComponent('a-input-search'), {
-                class: 'w-56 xl:w-72',
-                placeholder: props.searchPlaceholder,
-                value: props.searchKeyword,
-                'onUpdate:value': (val: string) =>
-                  emit('update:searchKeyword', val),
-                onSearch: (val: string) => emit('search', val)
-              })
+              class: 'w-56 xl:w-72',
+              placeholder: props.searchPlaceholder,
+              value: props.searchKeyword,
+              'onUpdate:value': (val: string) =>
+                emit('update:searchKeyword', val),
+              onSearch: (val: string) => emit('search', val)
+            })
             : undefined
         ]
       )

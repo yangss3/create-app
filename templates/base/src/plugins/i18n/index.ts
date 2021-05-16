@@ -8,7 +8,10 @@ const messages = Object.fromEntries(
   })
 )
 
-export default createI18n({
+const { i18n, t } = createI18n({
   locale: 'zh',
   messages
 })
+
+export { t }
+export default i18n

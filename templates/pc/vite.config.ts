@@ -21,11 +21,7 @@ export default defineConfig({
   },
   plugins: [
     vue(),
-    WindiCSS({
-      scan: {
-        fileExtensions: ['html', 'vue', 'ts', 'tsx']
-      }
-    }),
+    WindiCSS(),
     Icons(),
     ViteComponents({
       extensions: ['vue', 'ts'],

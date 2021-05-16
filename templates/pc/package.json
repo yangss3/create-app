@@ -1,16 +1,16 @@
 {
-  "name": "vite-app-template",
+  "name": "pc",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview",
-    "cm": "cz"
+    "commit": "cz"
   },
   "dependencies": {
     "@vueuse/core": "^4.3.5",
-    "@yangss/vue3-i18n": "^0.3.0",
-    "ant-design-vue": "^2.0.1",
+    "@yangss/vue3-i18n": "^0.5.0",
+    "ant-design-vue": "^2.1.2",
     "axios": "^0.21.1",
     "lodash-es": "^4.17.21",
     "nprogress": "^0.2.0",
@@ -21,30 +21,29 @@
   "devDependencies": {
     "@commitlint/cli": "^12.0.1",
     "@commitlint/config-conventional": "^12.0.1",
+    "@iconify/json": "^1.1.334",
     "@types/lodash-es": "^4.17.4",
     "@types/node": "^14.14.31",
     "@types/nprogress": "^0.2.0",
-    "@typescript-eslint/eslint-plugin": "^4.15.2",
-    "@typescript-eslint/parser": "^4.15.2",
-    "@vitejs/plugin-vue": "^1.1.4",
+    "@vitejs/plugin-vue": "^1.2.2",
     "@vue/compiler-sfc": "^3.0.5",
     "@vuedx/typescript-plugin-vue": "^0.6.3",
+    "@yangss/eslint-config-vue": "^0.1.2",
     "axios-mock-adapter": "^1.19.0",
     "commitizen": "^4.2.3",
     "cz-conventional-changelog": "^3.2.0",
     "eslint": "^7.21.0",
-    "eslint-config-prettier": "^8.1.0",
-    "eslint-plugin-vue": "^7.6.0",
     "husky": "^4.3.8",
     "lint-staged": "^10.5.4",
     "postcss-preset-env": "^6.7.0",
-    "prettier": "^2.2.1",
     "typescript": "^4.1.3",
-    "vite": "^2.0.1",
+    "vite": "^2.2.3",
     "vite-plugin-components": "^0.8.0",
-    "vite-plugin-icons": "^0.3.2",
-    "vite-plugin-style-import": "^0.7.6",
-    "vite-plugin-windicss": "^0.8.1"
+    "vite-plugin-icons": "^0.5.0",
+    "vite-plugin-style-import": "^0.10.0",
+    "vite-plugin-windicss": "^0.15.7",
+    "vue-tsc": "^0.0.24",
+    "windicss": "^2.5.14"
   },
   "config": {
     "commitizen": {
@@ -63,7 +62,6 @@
     }
   },
   "lint-staged": {
-    "*.{ts,tsx,vue}": "eslint --fix",
-    "*.{ts,vue,css,md}": "prettier --write"
+    "*.{ts,tsx,vue}": "eslint --fix"
   }
 }

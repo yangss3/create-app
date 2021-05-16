@@ -7,11 +7,11 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from) => {
+router.beforeEach(() => {
   NProgress.start()
 })
 
-router.afterEach((to, from) => {
+router.afterEach(() => {
   NProgress.done()
 })
 

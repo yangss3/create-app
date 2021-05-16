@@ -17,7 +17,7 @@ export default defineComponent({
       default: false
     }
   },
-  setup(props, { attrs, slots }) {
+  setup (props, { attrs, slots }) {
     return () =>
       h(
         Modal,

@@ -32,7 +32,7 @@ const responseInterceptor = {
         case 401:
           message.error(error.response?.data.message || error.message)
           store.commit('UPDATE_AUTH', null)
-          router.replace('/login')
+          setTimeout(() => router.replace('/login'), 1000)
           break
         default:
           message.error(error.response?.data.message || error.message)

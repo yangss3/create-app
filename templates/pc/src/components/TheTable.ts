@@ -4,8 +4,9 @@
  *  支持选择行的双向绑定：v-model:selectedRows
  */
 import { Table } from 'ant-design-vue'
-import { defineComponent, h, onBeforeUnmount, onMounted, ref } from 'vue'
+import { defineComponent, h, onBeforeUnmount, onMounted, ref, watchEffect } from 'vue'
 import { useI18n } from '@yangss/vue3-i18n'
+import { random } from 'lodash-es'
 import './TheTable.css'
 
 export default defineComponent({
@@ -22,9 +23,9 @@ export default defineComponent({
     },
     offsetTop: {
       type: Number,
-      default: 286
+      default: 260
     },
-    selectedRows: Array,
+    selectedRows: Array, // v-model:selectedRows
     multipleSelect: {
       type: Boolean,
       default: true
@@ -32,20 +33,38 @@ export default defineComponent({
     rowKey: {
       type: String,
       default: 'id'
+    },
+    shadow: {
+      type: Boolean,
+      default: true
     }
   },
   emits: ['update:selectedRows'],
-  setup(props, { attrs, slots, emit }) {
+  setup (props, { attrs, slots, emit }) {
     const tableHeight = ref()
     const setTableHeight = () => {
       tableHeight.value = window.innerHeight - props.offsetTop
     }
+    const uniqueId = '__' + random(100000000, 999999999)
+
     onMounted(() => {
       if (props.adaptive) {
         setTableHeight()
         window.addEventListener('resize', setTableHeight)
+        const table: HTMLElement = document.querySelector(
+          `.adaptive-table.ant-table-wrapper.${uniqueId}`
+        )!
+        table && (table.style.height = `calc(100vh - ${props.offsetTop - 110}px)`)
       }
     })
+
+    watchEffect(() => {
+      const table: HTMLElement = document.querySelector(
+          `.adaptive-table.ant-table-wrapper.${uniqueId}`
+      )!
+      table && (table.style.height = `calc(100vh - ${props.offsetTop - 110}px)`)
+    })
+
     onBeforeUnmount(() => {
       if (props.adaptive) {
         window.removeEventListener('resize', setTableHeight)
@@ -69,7 +88,9 @@ export default defineComponent({
                   defaultPageSize: 20,
                   showSizeChanger: true,
                   showTotal: (total: number) =>
-                    `${t('pagination.total')} ${total} ${t('pagination.item')}`,
+                    `${t('pagination.total')} ${total} ${t(
+                      'pagination.item'
+                    )}`,
                   ...props.pagination
                 },
           rowSelection: props.selectedRows
@@ -84,8 +105,8 @@ export default defineComponent({
             : props.rowSelection,
           class:
             props.adaptive && props.fixedHeight
-              ? 'adaptive-table shadow'
-              : 'shadow'
+              ? `adaptive-table ${uniqueId} ${props.shadow ? 'shadow' : ''}`
+              : `${props.shadow ? 'shadow' : ''}`
         },
         slots
       )

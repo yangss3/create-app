@@ -1,6 +1,5 @@
 .adaptive-table {
   &.ant-table-wrapper {
-    height: calc(100vh - 185px);
     & .ant-spin-nested-loading {
       @apply h-full;
       & .ant-spin-container {
@@ -8,7 +7,7 @@
       }
     }
     & .ant-table-pagination.ant-pagination {
-      @apply float-none absolute bottom-0 right-4;
+      @apply float-none absolute bottom-1 right-4;
     }
   }
 }

@@ -6,11 +6,14 @@ import { AxiosRequestConfig } from 'axios'
 
 export type ApiKey = keyof typeof apiUrlMap
 
+export type RequestConfig = AxiosRequestConfig & {
+  showMsg?: boolean
+  subPath?: string
+}
+
 export interface PaginatedResponseData {
   list: unknown[]
   total: number
-  pageSize?: number
-  pageIndex?: number
 }
 
 export interface Response<T = null> {
@@ -19,71 +22,93 @@ export interface Response<T = null> {
   message?: string
 }
 
-type Method = 'get' | 'post' | 'put' | 'delete'
-
-function handleResponse<T>(res: Response<T>, method?: Method) {
+function handleResponse<T> (res: Response<T>, config: RequestConfig) {
   if (res.success) {
-    if (method === 'get') {
-      return res.data
-    } else {
-      res.message && message.success(res.message)
-      return res.data
-    }
+    config.showMsg && res.message && message.success(res.message)
+    return res.data
   } else {
-    res.message && message.error(res.message)
-    throw new Error(res.message)
+    config.showMsg && res.message && message.error(res.message)
+    throw res
   }
 }
 
+function formatPath (base: string, subPath?: string) {
+  return subPath
+    ? base + (subPath.startsWith('/') ? subPath : `/${subPath}`)
+    : base
+}
+
 export const http = {
-  async get<T = PaginatedResponseData>(
+  async get<T = PaginatedResponseData> (
     apiKey: ApiKey,
     data: Record<string, unknown> = {},
-    config: AxiosRequestConfig = {}
+    config: RequestConfig = {}
   ) {
-    const res = await axiosInstance.get<Response<T>>(apiUrlMap[apiKey], {
-      params: data,
-      ...config
-    })
-    return handleResponse(res.data, 'get')!
+    const res = await axiosInstance.get<Response<T>>(
+      formatPath(apiUrlMap[apiKey], config.subPath),
+      {
+        params: data,
+        ...config
+      }
+    )
+    config = { showMsg: !res.data.success, ...config }
+    return handleResponse(res.data, config)!
   },
 
-  async post<T = null>(
+  async getBlob (
+    apiKey: ApiKey,
+    data: Record<string, unknown> = {},
+    config: RequestConfig = {}
+  ) {
+    const res = await axiosInstance.get(
+      formatPath(apiUrlMap[apiKey], config.subPath),
+      { params: data, ...config }
+    )
+    return res.data
+  },
+
+  async post<T = null> (
     apiKey: ApiKey,
     data: Record<string, unknown> | FormData = {},
-    config: AxiosRequestConfig = {}
+    config: RequestConfig = {}
   ) {
     const res = await axiosInstance.post<Response<T>>(
-      apiUrlMap[apiKey],
+      formatPath(apiUrlMap[apiKey], config.subPath),
       data,
       config
     )
-    return handleResponse(res.data)!
+    config = { showMsg: true, ...config }
+    return handleResponse(res.data, config)!
   },
 
-  async delete<T = null>(
+  async delete<T = null> (
     apiKey: ApiKey,
     data: Record<string, unknown> = {},
-    config: AxiosRequestConfig = {}
+    config: RequestConfig = {}
   ) {
-    const res = await axiosInstance.delete<Response<T>>(apiUrlMap[apiKey], {
-      data,
-      ...config
-    })
-    return handleResponse(res.data)!
+    const res = await axiosInstance.delete<Response<T>>(
+      formatPath(apiUrlMap[apiKey], config.subPath),
+      {
+        data,
+        ...config
+      }
+    )
+    config = { showMsg: true, ...config }
+    return handleResponse(res.data, config)!
   },
 
-  async put<T = null>(
+  async put<T = null> (
     apiKey: ApiKey,
     data: Record<string, unknown>,
-    config: AxiosRequestConfig = {}
+    config: RequestConfig = {}
   ) {
     const res = await axiosInstance.put<Response<T>>(
-      apiUrlMap[apiKey],
+      formatPath(apiUrlMap[apiKey], config.subPath),
       data,
       config
     )
-    return handleResponse(res.data)!
+    config = { showMsg: true, ...config }
+    return handleResponse(res.data, config)!
   }
 }
 

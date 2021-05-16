@@ -1,16 +1,13 @@
 <template>
   <div class="h-full text-center pt-10 dark:bg-gray-800">
-    <img alt="Vue logo" src="./assets/logo.png" class="mx-auto" />
+    <img alt="Vue logo" src="./assets/logo.png" class="mx-auto">
     <HelloWorld
       msg="A starter template based on Vite 2 and Vue 3 with a rich of features"
     />
     <p class="space-x-4 mt-5">
       <span class="text-blue-500 text-xl">{{ t('hello') }}</span>
-      <button
-        class="px-4 py-2 rounded bg-blue-800 text-gray-100 hover:bg-blue-700"
-        @click="switchLocale"
-      >
-        <ion:language />
+      <button class="btn" @click="switchLocale">
+        <ion:language class="mr-1" />
         {{ locale === 'zh' ? 'English' : '中文' }}
       </button>
       <span class="text-2xl cursor-pointer" @click="toggleDark">
@@ -19,8 +16,12 @@
       </span>
     </p>
     <div class="mt-10 text-center space-x-5">
-      <router-link to="/home">Home</router-link>
-      <router-link to="/about">About</router-link>
+      <router-link to="/home">
+        Home
+      </router-link>
+      <router-link to="/about">
+        About
+      </router-link>
     </div>
     <router-view />
   </div>
@@ -36,7 +37,7 @@ export default defineComponent({
   setup: () => {
     const { t, locale } = useI18n()
 
-    function switchLocale() {
+    function switchLocale () {
       locale.value = locale.value === 'zh' ? 'en' : 'zh'
     }
 

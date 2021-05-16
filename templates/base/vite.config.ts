@@ -14,10 +14,10 @@ export default defineConfig({
   },
   plugins: [
     vue(),
-    WindiCSS({}),
+    WindiCSS(),
     Icons(),
     ViteComponents({
-      extensions: ['vue', 'ts'],
+      extensions: ['vue', 'ts', 'tsx'],
       customComponentResolvers: [
         // auto importing icons
         ViteIconsResolver({

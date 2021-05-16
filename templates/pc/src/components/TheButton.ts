@@ -24,7 +24,7 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props, { slots, attrs }) {
+  setup (props, { slots, attrs }) {
     const btnSlots = {} as {
       default: () => VNode[] | undefined
       icon?: () => VNode

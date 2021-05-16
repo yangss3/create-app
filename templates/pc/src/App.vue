@@ -12,13 +12,13 @@
 import enUS from 'ant-design-vue/es/locale/en_US'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import moment from 'moment'
-import 'moment/locale/zh-cn'
+import 'moment/dist/locale/zh-cn'
 import useCachedPages from '@/compositions/useCachedPages'
 import { defineComponent, ref, watchEffect } from 'vue'
 import { useStore } from '@/store'
 
 export default defineComponent({
-  setup() {
+  setup () {
     const store = useStore()
     const langPkg = ref(enUS as any)
     watchEffect(() => {

@@ -1,6 +1,5 @@
 import { reactive, ref, toRaw } from 'vue'
-import { http, ApiKey } from '@/service'
-import { AxiosRequestConfig } from 'axios'
+import { http, ApiKey, RequestConfig } from '@/service'
 import { message, Modal } from 'ant-design-vue'
 import { useI18n } from '@yangss/vue3-i18n'
 
@@ -30,9 +29,9 @@ export default <T extends { id: string }, Q = Record<string, unknown>>(
     ...(queryParamsRaw || ({} as Q))
   })
 
-  async function getData(
+  async function getData (
     params?: Record<string, unknown>,
-    config: AxiosRequestConfig = {}
+    config: RequestConfig = {}
   ) {
     try {
       loading.value = true
@@ -45,7 +44,7 @@ export default <T extends { id: string }, Q = Record<string, unknown>>(
     }
   }
 
-  async function postData(params: Partial<T>, config: AxiosRequestConfig = {}) {
+  async function postData (params: Partial<T>, config: RequestConfig = {}) {
     try {
       loading.value = true
       await http.post(url, params, config)
@@ -56,7 +55,7 @@ export default <T extends { id: string }, Q = Record<string, unknown>>(
     }
   }
 
-  async function putData(params: Partial<T>, config: AxiosRequestConfig = {}) {
+  async function putData (params: Partial<T>, config: RequestConfig = {}) {
     try {
       loading.value = true
       await http.put(url, toRaw(params || data), config)
@@ -67,10 +66,10 @@ export default <T extends { id: string }, Q = Record<string, unknown>>(
     }
   }
 
-  async function deleteData(params: any) {
+  async function deleteData (params: any, config: RequestConfig = {}) {
     try {
       loading.value = true
-      await http.delete(url, params)
+      await http.delete(url, params, config)
       loading.value = false
       getData()
     } catch (error) {
@@ -84,7 +83,7 @@ export default <T extends { id: string }, Q = Record<string, unknown>>(
    * @param filter
    * @param sorter
    */
-  async function handleTableChange(
+  async function handleTableChange (
     pagination: Record<string, any>,
     filter: Record<string, any>,
     sorter: Record<string, any>
@@ -108,7 +107,7 @@ export default <T extends { id: string }, Q = Record<string, unknown>>(
    * @param row 要删除的行或行数组
    * @param validator 执行删除前的校验函数，可选
    */
-  function handleTableDelete(
+  function handleTableDelete (
     row: T | T[],
     validator?: (record: T[]) => boolean
   ) {

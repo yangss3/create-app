@@ -1,5 +1,5 @@
-import { ColumnProps } from 'ant-design-vue/lib/table/interface'
-import { locales } from './meta'
+import { ComputedRef } from 'vue'
+import { locales } from './constants'
 
 export type Locale = keyof typeof locales
 
@@ -31,7 +31,7 @@ export interface SubMenu {
   parentId?: string
 }
 export type Menus = (MenuItem | SubMenu)[]
-export function isSubMenu(menu: MenuItem | SubMenu): menu is SubMenu {
+export function isSubMenu (menu: MenuItem | SubMenu): menu is SubMenu {
   return (menu as SubMenu).children?.length > 0
 }
 
@@ -45,12 +45,20 @@ export interface User {
   photo?: string
 }
 
-export type TableColumns<T> = ({
-  key?: keyof T | 'operation'
-  dataIndex: keyof T | 'operation'
-  slots?: { customRender: keyof T | 'operation'; [key: string]: any }
-} & ColumnProps)[]
+type FItem = { text: string; value: string; children?: FItem[] }
 
-export type RequiredPick<T extends object, K extends keyof T> = Required<
-  Pick<T, K>
->
+export type TableColumns<T> = {
+  dataIndex: keyof T | 'operation'
+  title: string | ComputedRef<string>
+  align?: 'center' | 'left' | 'right'
+  key?: keyof T | 'operation'
+  slots?: { customRender: keyof T | 'operation'; [key: string]: any }
+  filters?: FItem[]
+  ellipsis?: boolean
+  width?: number
+}[]
+
+export type RequiredPick<T, K extends keyof T> = Required<Pick<T, K>>
+
+export type RuleFunc = (form: any) => Record<string, any>[]
+export type Rule = Record<string, any>[] | RuleFunc

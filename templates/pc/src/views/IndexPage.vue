@@ -15,17 +15,17 @@
           <whh:circlegithub :class="['text-2xl', { 'mr-3': !collapsed }]" />
           <octicon:logo-github-16 v-show="!collapsed" class="text-7xl icon" />
         </div>
-        <!-- <TheMenu
+        <TheMenu
           :collapsed="collapsed"
           :data="menus"
           class="flex-1 h-0 overflow-y-auto overflow-x-hidden"
-        /> -->
+        />
       </div>
     </a-layout-sider>
     <a-layout>
-      <a-layout-header class="relative theme">
+      <a-layout-header class="relative theme shadow-md">
         <span
-          class="cursor-pointer text-2xl absolute top-3.3 left-10"
+          class="cursor-pointer text-2xl absolute top-4 left-10"
           @click="collapsed = !collapsed"
         >
           <ri:menu-unfold-fill v-if="collapsed" />
@@ -53,7 +53,6 @@ import TheTabs from './components/TheTabs.vue'
 import { Menus, User } from '@/utils/types'
 import { http } from '@/service'
 import { useStore } from '@/store'
-// import { useDark } from '@vueuse/core'
 
 export default defineComponent({
   name: 'IndexPage',
@@ -63,7 +62,7 @@ export default defineComponent({
     TheTabs
   },
 
-  setup() {
+  setup () {
     const collapsed = ref(false)
 
     const store = useStore()
@@ -85,5 +84,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped></style>
