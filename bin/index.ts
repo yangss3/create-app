@@ -9,10 +9,10 @@ const cwd = process.cwd()
 const TEMPLATES = ['base', 'pc', 'mobile']
 
 
-async function init() {
+async function init () {
   let targetDir = argv._[0]
 
-  if(!targetDir) {
+  if (!targetDir) {
     const { name } = await prompt({
       type: 'input',
       name: 'name',
@@ -24,12 +24,12 @@ async function init() {
 
   const dist = path.resolve(cwd, targetDir)
 
-  if(fs.existsSync(dist)) {
+  if (fs.existsSync(dist)) {
     const { yes } = await prompt({
       type: 'confirm',
       name: 'yes',
       message: `Target directory ${targetDir} is not empty.\n` +
-      `Remove existing files and continue?`,
+      'Remove existing files and continue?',
       default: true
     })
     if (yes) {
@@ -67,16 +67,16 @@ async function init() {
 
   const pkg = await fs.readJson(path.join(templateDir, 'package.json'))
   pkg.name = path.basename(dist)
-  await fs.outputJson(path.join(dist, 'package.json'), pkg, {spaces: 2})
+  await fs.outputJson(path.join(dist, 'package.json'), pkg, { spaces: 2 })
 
   const pkgManager = /yarn/.test(process.env.npm_execpath!) ? 'yarn' : 'npm'
 
-  console.log(`\nDone. Now run:\n`)
+  console.log('\nDone. Now run:\n')
   if (dist !== cwd) {
     console.log(`  cd ${path.relative(cwd, dist)}`)
   }
-  console.log(`  ${pkgManager === 'yarn' ? `yarn` : `npm install`}`)
-  console.log(`  ${pkgManager === 'yarn' ? `yarn dev` : `npm run dev`}`)
+  console.log(`  ${pkgManager === 'yarn' ? 'yarn' : 'npm install'}`)
+  console.log(`  ${pkgManager === 'yarn' ? 'yarn dev' : 'npm run dev'}`)
   console.log()
 }
 

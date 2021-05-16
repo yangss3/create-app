@@ -28,7 +28,7 @@ async function init() {
             type: 'confirm',
             name: 'yes',
             message: `Target directory ${targetDir} is not empty.\n` +
-                `Remove existing files and continue?`,
+                'Remove existing files and continue?',
             default: true
         });
         if (yes) {
@@ -63,12 +63,12 @@ async function init() {
     pkg.name = path_1.default.basename(dist);
     await fs_extra_1.default.outputJson(path_1.default.join(dist, 'package.json'), pkg, { spaces: 2 });
     const pkgManager = /yarn/.test(process.env.npm_execpath) ? 'yarn' : 'npm';
-    console.log(`\nDone. Now run:\n`);
+    console.log('\nDone. Now run:\n');
     if (dist !== cwd) {
         console.log(`  cd ${path_1.default.relative(cwd, dist)}`);
     }
-    console.log(`  ${pkgManager === 'yarn' ? `yarn` : `npm install`}`);
-    console.log(`  ${pkgManager === 'yarn' ? `yarn dev` : `npm run dev`}`);
+    console.log(`  ${pkgManager === 'yarn' ? 'yarn' : 'npm install'}`);
+    console.log(`  ${pkgManager === 'yarn' ? 'yarn dev' : 'npm run dev'}`);
     console.log();
 }
 init().catch((e) => {
