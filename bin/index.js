@@ -11,6 +11,9 @@ const fs_extra_1 = __importDefault(require("fs-extra"));
 const argv = minimist_1.default(process.argv.slice(2));
 const cwd = process.cwd();
 const TEMPLATES = ['base', 'pc', 'mobile'];
+const renameFiles = {
+    _gitignore: '.gitignore'
+};
 async function init() {
     let targetDir = argv._[0];
     if (!targetDir) {
@@ -57,7 +60,9 @@ async function init() {
     const templateDir = path_1.default.resolve(__dirname, `../templates/${template}`);
     const files = fs_extra_1.default.readdirSync(templateDir);
     for (const file of files.filter((f) => f !== 'package.json')) {
-        fs_extra_1.default.copySync(path_1.default.join(templateDir, file), path_1.default.join(dist, file));
+        renameFiles[file]
+            ? fs_extra_1.default.copySync(path_1.default.join(templateDir, file), path_1.default.join(dist, renameFiles[file]))
+            : fs_extra_1.default.copySync(path_1.default.join(templateDir, file), path_1.default.join(dist, file));
     }
     const pkg = await fs_extra_1.default.readJson(path_1.default.join(templateDir, 'package.json'));
     pkg.name = path_1.default.basename(dist);

@@ -7,7 +7,9 @@ import fs from 'fs-extra'
 const argv = minimist(process.argv.slice(2))
 const cwd = process.cwd()
 const TEMPLATES = ['base', 'pc', 'mobile']
-
+const renameFiles: Record<string, string> = {
+  _gitignore: '.gitignore'
+}
 
 async function init () {
   let targetDir = argv._[0]
@@ -62,7 +64,9 @@ async function init () {
 
   const files = fs.readdirSync(templateDir)
   for (const file of files.filter((f) => f !== 'package.json')) {
-    fs.copySync(path.join(templateDir, file), path.join(dist, file))
+    renameFiles[file]
+      ? fs.copySync(path.join(templateDir, file), path.join(dist, renameFiles[file]))
+      : fs.copySync(path.join(templateDir, file), path.join(dist, file))
   }
 
   const pkg = await fs.readJson(path.join(templateDir, 'package.json'))
