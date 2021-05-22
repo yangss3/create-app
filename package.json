@@ -7,7 +7,8 @@
     "create-app": "dist/index.js"
   },
   "scripts": {
-    "build": "eslint ./src/index.ts --fix && tsc",
+    "build": "tsc",
+    "lint": "eslint src/* --fix",
     "patch": "npm run build && npm version patch && npm publish",
     "minor": "npm run build && npm version minor && npm publish",
     "major": "npm run build && npm version major && npm publish"
