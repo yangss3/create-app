@@ -3,10 +3,15 @@ import minimist from 'minimist'
 import { prompt } from 'inquirer'
 import path from 'path'
 import fs from 'fs-extra'
+import { exec as execCb } from 'child_process'
+import { promisify } from 'util'
+import ora from 'ora'
 
+const spinner = ora()
+const exec = promisify(execCb)
 const argv = minimist(process.argv.slice(2))
 const cwd = process.cwd()
-const TEMPLATES = ['base', 'pc', 'mobile']
+const TEMPLATES = ['web', 'pc', 'mobile', 'vanilla']
 const renameFiles: Record<string, string> = {
   _gitignore: '.gitignore'
 }
@@ -35,7 +40,9 @@ async function init () {
       default: true
     })
     if (yes) {
+      spinner.start('Removing...')
       await fs.remove(dist)
+      spinner.succeed('Removed')
     } else {
       return
     }
@@ -63,27 +70,49 @@ async function init () {
   const templateDir = path.resolve(__dirname, `../templates/${template}`)
 
   const files = fs.readdirSync(templateDir)
-  for (const file of files.filter((f) => f !== 'package.json')) {
+  for (const file of files) {
     renameFiles[file]
       ? fs.copySync(path.join(templateDir, file), path.join(dist, renameFiles[file]))
       : fs.copySync(path.join(templateDir, file), path.join(dist, file))
   }
 
-  const pkg = await fs.readJson(path.join(templateDir, 'package.json'))
-  pkg.name = path.basename(dist)
-  await fs.outputJson(path.join(dist, 'package.json'), pkg, { spaces: 2 })
+  spinner.start('Install deps...')
+  const installOpt = await exec(`cd ${dist} && npm install`)
+  spinner.succeed('Install deps completed')
+  console.log(installOpt.stdout)
 
-  const pkgManager = /yarn/.test(process.env.npm_execpath!) ? 'yarn' : 'npm'
+  const initGitRepo = [
+    `cd ${dist}`,
+    'git init',
+    'npx mrm@2 lint-staged',
+    'npx husky add .husky/commit-msg "node ./scripts/validate-commit-msg.js"'
+  ]
+  spinner.start('Initialize git repo...')
+  const initOpt = await exec(initGitRepo.join('&&'))
+  spinner.succeed('Initialize git repo completed')
+  console.log(initOpt.stdout)
 
-  console.log('\nDone. Now run:\n')
-  if (dist !== cwd) {
-    console.log(`  cd ${path.relative(cwd, dist)}`)
+  const pkgJsonPath = path.join(dist, 'package.json')
+  const pkgJson = fs.readJsonSync(pkgJsonPath)
+  pkgJson.name = path.basename(dist)
+  pkgJson['lint-staged'] = template === 'vanilla'
+    ? { '*.(ts|js)': 'eslint --fix' }
+    : { '*.(ts|tsx|vue)': 'eslint --fix' }
+  fs.outputJsonSync(pkgJsonPath, pkgJson, { spaces: 2 })
+  fs.rmSync(path.resolve(dist, '6'))
+
+  if (template === 'vanilla') {
+    console.log('\nDone.')
+    console.log()
+  } else {
+    console.log('\nDone. Now run:\n')
+    if (dist !== cwd) {
+      console.log(` cd ${path.relative(cwd, dist)}`)
+    }
+    console.log(' npm run dev')
+    console.log()
   }
-  console.log(`  ${pkgManager === 'yarn' ? 'yarn' : 'npm install'}`)
-  console.log(`  ${pkgManager === 'yarn' ? 'yarn dev' : 'npm run dev'}`)
-  console.log()
 }
-
 
 init().catch((e) => {
   console.error(e)
