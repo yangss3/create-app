@@ -14,5 +14,4 @@
 - [x] Mock backend API in DEV
 - [x] I18n
 - [x] ESLint
-- [x] Prettier
 - [x] Conventional commits
