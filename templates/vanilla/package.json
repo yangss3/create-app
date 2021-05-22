@@ -1,0 +1,16 @@
+{
+  "name": "vanilla",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src/* --fix"
+  },
+  "devDependencies": {
+    "@types/node": "^15.6.0",
+    "@yangss/eslint-config-ts": "^0.1.4",
+    "eslint": "^7.26.0",
+    "typescript": "^4.2.4"
+  }
+}
