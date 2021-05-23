@@ -85,7 +85,7 @@ async function init () {
     `cd ${dist}`,
     'git init',
     'npx mrm@2 lint-staged',
-    'npx husky add .husky/commit-msg "node ./scripts/validate-commit-msg.js"'
+    'npx husky add .husky/commit-msg "node ./scripts/validate-commit-msg.mjs"'
   ]
   spinner.start('Initialize git repo...')
   const initOpt = await exec(initGitRepo.join('&&'))
