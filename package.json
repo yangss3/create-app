@@ -1,6 +1,6 @@
 {
   "name": "@yangss/create-app",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Scaffolding Vite Projects with Some Pre-configured Features",
   "main": "./dist/index.js",
   "bin": {
