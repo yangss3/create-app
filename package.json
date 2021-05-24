@@ -1,7 +1,7 @@
 {
   "name": "@yangss/create-app",
   "version": "0.1.1",
-  "description": "Scaffolding Vite Projects with Some Pre-configured Features",
+  "description": "Scaffolding Vite & TS Projects with Some Pre-configured Features",
   "main": "./dist/index.js",
   "bin": {
     "create-app": "dist/index.js"
@@ -11,7 +11,8 @@
     "lint": "eslint src/* --fix",
     "patch": "npm run build && npm version patch && npm publish",
     "minor": "npm run build && npm version minor && npm publish",
-    "major": "npm run build && npm version major && npm publish"
+    "major": "npm run build && npm version major && npm publish",
+    "prepare": "husky install"
   },
   "publishConfig": {
     "access": "public"
@@ -38,7 +39,10 @@
     "@types/minimist": "^1.2.1",
     "@types/node": "^14.14.33",
     "@yangss/eslint-config-ts": "^0.1.4",
+    "@yangss/init-git-repo": "^0.0.6",
     "eslint": "^7.21.0",
+    "husky": "^6.0.0",
+    "lint-staged": "^11.0.0",
     "typescript": "^4.2.3"
   },
   "dependencies": {
@@ -46,5 +50,8 @@
     "inquirer": "^8.0.0",
     "minimist": "^1.2.5",
     "ora": "^5.4.0"
+  },
+  "lint-staged": {
+    "*.ts": "eslint --fix"
   }
 }
