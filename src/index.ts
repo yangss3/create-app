@@ -83,9 +83,8 @@ async function init () {
 
   const initGitRepo = [
     `cd ${dist}`,
-    'git init',
-    'npx mrm@2 lint-staged',
-    'npx husky add .husky/commit-msg "node ./scripts/validate-commit-msg.mjs"'
+    'npm install @yangss/init-git-repo -D',
+    'npx init-git-repo'
   ]
   spinner.start('Initialize git repo...')
   const initOpt = await exec(initGitRepo.join('&&'))
@@ -99,7 +98,6 @@ async function init () {
     ? { '*.(ts|js)': 'eslint --fix' }
     : { '*.(ts|tsx|vue)': 'eslint --fix' }
   fs.outputJsonSync(pkgJsonPath, pkgJson, { spaces: 2 })
-  fs.rmSync(path.resolve(dist, '6'))
 
   if (template === 'vanilla') {
     console.log('\nDone.')
