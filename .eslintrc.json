@@ -1,5 +1,5 @@
 {
   "extends": [
-    "@yangss/eslint-config-ts"
+    "@yangss/eslint-config-vue"
   ]
 }

@@ -38,7 +38,7 @@
     "@types/inquirer": "^7.3.1",
     "@types/minimist": "^1.2.1",
     "@types/node": "^14.14.33",
-    "@yangss/eslint-config-ts": "^0.1.4",
+    "@yangss/eslint-config-vue": "^0.1.4",
     "@yangss/init-git-repo": "^0.0.6",
     "eslint": "^7.21.0",
     "husky": "^6.0.0",
@@ -52,6 +52,6 @@
     "ora": "^5.4.0"
   },
   "lint-staged": {
-    "*.ts": "eslint --fix"
+    "*.(ts|vue)": "eslint --fix"
   }
 }
