@@ -13,4 +13,3 @@
 - [x] Conventional commits
 - [x] Dark theme
 - [ ] SSR
-- [ ] PWA
