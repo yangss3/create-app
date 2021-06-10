@@ -4,15 +4,9 @@
   </h1>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-export default defineComponent({
-  name: 'HelloWorld',
-  props: {
-    msg: {
-      type: String,
-      required: true
-    }
-  }
+<script lang="ts" setup>
+import { defineProps } from 'vue'
+const props = defineProps({
+  msg: String
 })
 </script>
