@@ -48,8 +48,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, reactive, ref } from 'vue'
+<script lang="ts" setup>
+import { computed, reactive, ref } from 'vue'
 import { useStore } from '@/store'
 import { locales } from '@/utils/constants'
 import { Locale } from '@/utils/types'
@@ -60,47 +60,33 @@ import { useDark, useToggle } from '@vueuse/core'
 
 type AvatarAction = 'profile' | 'logout'
 
-export default defineComponent({
-  name: 'TheNavBar',
-  setup () {
-    const store = useStore()
-    const router = useRouter()
+const store = useStore()
+const router = useRouter()
 
-    // Language
-    const languages = reactive(locales)
-    const selectedLanguageKey = ref([store.state.locale])
-    const { locale, t } = useI18n()
-    function switchLanguage (p: { key: Locale; keyPath: Locale[] }) {
-      locale.value = p.key
-      store.commit('UPDATE_LOCALE', p.key)
-      selectedLanguageKey.value = p.keyPath
-    }
+// Language
+const languages = reactive(locales)
+const selectedLanguageKey = ref([store.state.locale])
+const { locale, t } = useI18n()
+function switchLanguage (p: { key: Locale; keyPath: Locale[] }) {
+  locale.value = p.key
+  store.commit('UPDATE_LOCALE', p.key)
+  selectedLanguageKey.value = p.keyPath
+}
 
-    /* theme */
-    const isDark = useDark()
-    const toggleTheme = useToggle(isDark)
+/* theme */
+const isDark = useDark()
+const toggleTheme = useToggle(isDark)
 
-    async function handleAction (p: { key: AvatarAction }) {
-      switch (p.key) {
-        case 'logout':
-          await http.post('logout')
-          router.replace('/login')
-          break
-        case 'profile':
-          break
-      }
-    }
-
-    return {
-      t,
-      selectedLanguageKey,
-      languages,
-      switchLanguage,
-      handleAction,
-      isDark,
-      toggleTheme,
-      user: computed(() => store.state.user)
-    }
+async function handleAction (p: { key: AvatarAction }) {
+  switch (p.key) {
+    case 'logout':
+      await http.post('logout')
+      router.replace('/login')
+      break
+    case 'profile':
+      break
   }
-})
+}
+
+const user = computed(() => store.state.user)
 </script>

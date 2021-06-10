@@ -45,8 +45,8 @@
   </a-layout>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, onMounted, ref } from 'vue'
+<script lang="ts" setup>
+import { computed, onMounted, ref } from 'vue'
 import TheMenu from './components/TheMenu'
 import TheNavBar from './components/TheNavBar.vue'
 import TheTabs from './components/TheTabs.vue'
@@ -54,33 +54,19 @@ import { Menus, User } from '@/utils/types'
 import { http } from '@/service'
 import { useStore } from '@/store'
 
-export default defineComponent({
-  name: 'IndexPage',
-  components: {
-    TheMenu,
-    TheNavBar,
-    TheTabs
-  },
+const collapsed = ref(false)
 
-  setup () {
-    const collapsed = ref(false)
+const store = useStore()
 
-    const store = useStore()
+onMounted(async () => {
+  const menus = await http.get<Menus>('menus')
+  store.commit('UPDATE_MENUS', menus)
 
-    onMounted(async () => {
-      const menus = await http.get<Menus>('menus')
-      store.commit('UPDATE_MENUS', menus)
-
-      const user = await http.get<User>('user', {
-        username: store.state.username
-      })
-      store.commit('UPDATE_USER', user)
-    })
-
-    return {
-      collapsed,
-      menus: computed(() => store.state.menus)
-    }
-  }
+  const user = await http.get<User>('user', {
+    username: store.state.username
+  })
+  store.commit('UPDATE_USER', user)
 })
+
+const menus = computed(() => store.state.menus)
 </script>

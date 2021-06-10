@@ -8,15 +8,7 @@
   </router-view>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import useCachedPages from '@/compositions/useCachedPages'
-import { defineComponent} from 'vue'
-
-export default defineComponent({
-  setup() {
-    return {
-      cachedPages: useCachedPages()
-    }
-  }
-})
+const cachedPages = useCachedPages()
 </script>

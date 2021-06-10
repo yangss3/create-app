@@ -8,11 +8,11 @@ const messages = Object.fromEntries(
   })
 )
 
-const { i18n, t } = createI18n({
+const { install, i18n } = createI18n({
   locale: 'zh',
   fallbackLocale: 'zh',
   messages
 })
 
-export { t }
-export default i18n
+export const t = i18n.t
+export default install

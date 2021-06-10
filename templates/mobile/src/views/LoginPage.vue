@@ -23,46 +23,35 @@
         class="mt-5"
         @click="login"
       >
-        {{t('login')}}
+        {{ t('login') }}
       </van-button>
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { useStore } from '@/store'
 import { useRouter } from 'vue-router'
-import { defineComponent, reactive } from 'vue'
+import { reactive } from 'vue'
 import { http } from '@/service'
 import { useI18n } from '@yangss/vue3-i18n'
-export default defineComponent({
-  name: 'LoginPage',
-  setup() {
-    const form = reactive({
-      username: '',
-      password: ''
-    })
 
-    const store = useStore()
-    const router = useRouter()
-
-    async function login() {
-      const res = await http.post<{ token: string }>('login')
-      store.commit('UPDATE_AUTH', {
-        username: form.username,
-        token: res.token
-      })
-      router.replace('/')
-    }
-
-    const { t } = useI18n()
-
-    return {
-      form,
-      login,
-      t
-    }
-  }
-
+const form = reactive({
+  username: '',
+  password: ''
 })
+
+const store = useStore()
+const router = useRouter()
+
+async function login () {
+  const res = await http.post<{ token: string }>('login')
+  store.commit('UPDATE_AUTH', {
+    username: form.username,
+    token: res.token
+  })
+  router.replace('/')
+}
+
+const { t } = useI18n()
 </script>

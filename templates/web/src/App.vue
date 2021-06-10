@@ -27,30 +27,15 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
 import { useI18n } from '@yangss/vue3-i18n'
 import { useDark, useToggle } from '@vueuse/core'
 
-export default defineComponent({
-  name: 'App',
-  setup: () => {
-    const { t, locale } = useI18n()
+const { t, locale } = useI18n()
+function switchLocale () {
+  locale.value = locale.value === 'zh' ? 'en' : 'zh'
+}
 
-    function switchLocale () {
-      locale.value = locale.value === 'zh' ? 'en' : 'zh'
-    }
-
-    const isDark = useDark()
-    const toggleDark = useToggle(isDark)
-
-    return {
-      switchLocale,
-      locale,
-      isDark,
-      toggleDark,
-      t
-    }
-  }
-})
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
 </script>

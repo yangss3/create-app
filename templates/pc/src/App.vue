@@ -8,32 +8,25 @@
   </a-config-provider>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import enUS from 'ant-design-vue/es/locale/en_US'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import moment from 'moment'
 import 'moment/dist/locale/zh-cn'
 import useCachedPages from '@/compositions/useCachedPages'
-import { defineComponent, ref, watchEffect } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { useStore } from '@/store'
 
-export default defineComponent({
-  setup () {
-    const store = useStore()
-    const langPkg = ref(enUS as any)
-    watchEffect(() => {
-      if (store.state.locale === 'zh') {
-        moment.locale('zh')
-        langPkg.value = zhCN
-      } else {
-        moment.locale('en')
-        langPkg.value = enUS
-      }
-    })
-    return {
-      cachedPages: useCachedPages(),
-      langPkg
-    }
+const store = useStore()
+const langPkg = ref(enUS as any)
+watchEffect(() => {
+  if (store.state.locale === 'zh') {
+    moment.locale('zh')
+    langPkg.value = zhCN
+  } else {
+    moment.locale('en')
+    langPkg.value = enUS
   }
 })
+const cachedPages = useCachedPages()
 </script>

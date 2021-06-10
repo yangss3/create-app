@@ -1,7 +1,7 @@
 <template>
   <TheLayout>
     <TheLayoutHeader>
-      <van-nav-bar :title="t('workbench')"></van-nav-bar>
+      <van-nav-bar :title="t('workbench')" />
     </TheLayoutHeader>
     <TheLayoutContent>
       Workbench
@@ -9,15 +9,7 @@
   </TheLayout>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
 import { useI18n } from '@yangss/vue3-i18n'
-export default defineComponent({
-  setup() {
-    const { t } = useI18n()
-    return {
-      t
-    }
-  }
-})
+const { t } = useI18n()
 </script>

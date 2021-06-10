@@ -45,37 +45,24 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { http } from '@/service'
 import { useStore } from '@/store'
 import { Auth } from '@/utils/types'
-import { defineComponent, reactive } from 'vue'
+import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from '@yangss/vue3-i18n'
 
-export default defineComponent({
-  name: 'LoginPage',
-  setup () {
-    const form = reactive({
-      username: '',
-      password: ''
-    })
-
-    const store = useStore()
-    const router = useRouter()
-    async function login () {
-      const res = await http.post<Auth>('login', form)
-      store.commit('UPDATE_AUTH', { token: res.token, username: form.username })
-      router.replace('/')
-    }
-
-    const { t } = useI18n()
-
-    return {
-      form,
-      login,
-      t
-    }
-  }
+const form = reactive({
+  username: '',
+  password: ''
 })
+const store = useStore()
+const router = useRouter()
+async function login () {
+  const res = await http.post<Auth>('login', form)
+  store.commit('UPDATE_AUTH', { token: res.token, username: form.username })
+  router.replace('/')
+}
+const { t } = useI18n()
 </script>

@@ -7,9 +7,14 @@
       </div>
     </TheLayoutHeader>
     <TheLayoutContent class="bg-gray-100 pt-10px">
-      <van-cell :title="t('language')" is-link :value="language" @click="show = true">
+      <van-cell
+        :title="t('language')"
+        is-link
+        :value="language"
+        @click="show = true"
+      >
         <template #icon>
-          <ion:language class="relative top-1.3 mr-2 text-blue-500"/>
+          <ion:language class="relative top-1.3 mr-2 text-blue-500" />
         </template>
       </van-cell>
       <div class="mt-8 px-5">
@@ -19,7 +24,7 @@
           type="primary"
           @click="logout"
         >
-          {{t('logout')}}
+          {{ t('logout') }}
         </van-button>
       </div>
 
@@ -35,54 +40,41 @@
   </TheLayout>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, watchEffect } from 'vue'
+<script lang="ts" setup>
+import { ref, watchEffect } from 'vue'
 import { useI18n } from '@yangss/vue3-i18n'
 import { useStore } from '@/store'
 import { useRouter } from 'vue-router'
-export default defineComponent({
-  name: 'User',
-  setup() {
-    const show = ref(false)
-    const actions = ref([
-      { name: '中文', id: 'zh' },
-      { name: 'English', id: 'en' }
-    ])
 
-    const  { locale, t } = useI18n()
-    const language = ref('')
+const show = ref(false)
+const actions = ref([
+  { name: '中文', id: 'zh' },
+  { name: 'English', id: 'en' }
+])
 
-    function switchLanguage({ id }: { name: string; id: 'zh' | 'en' }) {
-      locale.value = id
-    }
+const { locale, t } = useI18n()
+const language = ref('')
 
-    watchEffect(() => {
-      switch(locale.value) {
-        case 'zh':
-          language.value = '中文'
-          break
-        case 'en':
-          language.value = 'English'
-          break
-      }
-    })
+function switchLanguage ({ id }: { name: string; id: 'zh' | 'en' }) {
+  locale.value = id
+}
 
-    const store = useStore()
-    const router = useRouter()
-
-    function logout () {
-      store.commit('UPDATE_AUTH', null)
-      router.replace('/login')
-    }
-
-    return {
-      show,
-      actions,
-      language,
-      switchLanguage,
-      logout,
-      t
-    }
+watchEffect(() => {
+  switch (locale.value) {
+    case 'zh':
+      language.value = '中文'
+      break
+    case 'en':
+      language.value = 'English'
+      break
   }
 })
+
+const store = useStore()
+const router = useRouter()
+
+function logout () {
+  store.commit('UPDATE_AUTH', null)
+  router.replace('/login')
+}
 </script>
