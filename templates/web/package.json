@@ -8,24 +8,24 @@
   },
   "dependencies": {
     "@vueuse/core": "^4.11.2",
-    "@yangss/vue3-i18n": "^1.1.0",
-    "vue": "^3.0.11",
+    "@yangss/vue3-i18n": "^1.1.2",
+    "vue": "^3.1.4",
     "vue-router": "^4.0.8"
   },
   "devDependencies": {
     "@iconify/json": "^1.1.351",
     "@types/node": "^14.14.31",
-    "@vitejs/plugin-vue": "^1.2.3",
-    "@vue/compiler-sfc": "^3.0.11",
+    "@vitejs/plugin-vue": "^1.2.4",
+    "@vue/compiler-sfc": "^3.1.4",
     "@yangss/eslint-config-vue": "^0.1.4",
     "postcss-preset-env": "^6.7.0",
     "eslint": "^7.27.0",
     "typescript": "^4.3.2",
-    "vite": "^2.3.7",
-    "vite-plugin-components": "^0.10.4",
-    "vite-plugin-icons": "^0.6.0",
-    "vite-plugin-windicss": "^1.0.3",
+    "vite": "^2.4.0",
+    "vite-plugin-components": "^0.12.0",
+    "vite-plugin-icons": "^0.6.4",
+    "vite-plugin-windicss": "^1.2.3",
     "vue-tsc": "^0.1.7",
-    "windicss": "^3.1.3"
+    "windicss": "^3.1.4"
   }
 }

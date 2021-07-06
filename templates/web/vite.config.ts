@@ -27,6 +27,7 @@ export default defineConfig({
     // https://github.com/antfu/vite-plugin-components
     ViteComponents({
       extensions: ['vue', 'ts', 'tsx'],
+      globalComponentsDeclaration: true,
       customComponentResolvers: [
         // auto importing icons
         ViteIconsResolver({
