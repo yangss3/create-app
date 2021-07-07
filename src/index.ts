@@ -82,7 +82,7 @@ async function init () {
     const { ui } = await prompt({
       type: 'list',
       name: 'ui',
-      message,
+      message: 'Select an UI library:',
       choices: pcUiLibs
     })
     uiLib = ui
@@ -166,10 +166,8 @@ function generateTemplate<T extends Template> (
   if (template === 'pc') {
     const destSrcPath = path.join(dest, 'src')
     const destSrcViewPath = path.join(dest, 'src/views')
-    const destSrcFiles = fs.readdirSync(destSrcPath)
-    const destSrcViewFiles = fs.readdirSync(destSrcViewPath)
-    renameSrcFiles(destSrcPath, destSrcFiles)
-    renameSrcFiles(destSrcViewPath, destSrcViewFiles)
+    renameSrcFiles(destSrcPath, fs.readdirSync(destSrcPath))
+    renameSrcFiles(destSrcViewPath, fs.readdirSync(destSrcViewPath))
   }
 }
 
