@@ -3,23 +3,11 @@ import { RouteRecordRaw } from 'vue-router'
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    name: 'IndexPage',
-    component: () => import('@/views/IndexPage.vue'),
-    meta: {
-      requiresAuth: true
-    },
-    children: [
-      {
-        path: '',
-        name: 'UserManagement',
-        component: () => import('@/views/home/HelloWorld.vue')
-      }
-    ]
+    component: () => import('@/views/Home.vue')
   },
   {
-    path: '/login',
-    name: 'LoginPage',
-    component: () => import('@/views/LoginPage.vue')
+    path: '/about',
+    component: () => import('@/views/About.vue')
   }
 ]
 

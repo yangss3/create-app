@@ -14,6 +14,7 @@ const cwd = process.cwd()
 const renameRootFiles: Record<string, string> = {
   _gitignore: '.gitignore'
 }
+
 const templates = ['web', 'pc', 'mobile', 'vanilla'] as const
 const pcUiLibs = [
   { name: 'Ant Design Vue', value: 'antdv' }
@@ -21,10 +22,23 @@ const pcUiLibs = [
 const mobileUiLibs = [
   { name: 'Vant', value: 'vant' }
 ] as const
+const uiLibs = {
+  antdv: {
+    name: 'ant-design-vue',
+    version: '^2.2.1',
+    resolver: 'AntDesignVueResolver'
+  },
+  vant: {
+    name: 'vant',
+    version: '^3.1.2',
+    resolver: 'VantResolver'
+  }
+} as const
 
 type Template = typeof templates[number]
 type PcUiLib = typeof pcUiLibs[number]['value']
 type MobileUiLib = typeof mobileUiLibs[number]['value']
+
 
 async function init () {
   let targetDir = argv._[0]
@@ -126,14 +140,10 @@ async function init () {
   }
 }
 
-function generateTemplate<T extends Template> (
+function generateTemplate (
   dest: string,
-  template: T,
-  uiLib: T extends 'pc'
-    ? PcUiLib
-    : T extends 'mobile'
-      ? MobileUiLib
-      : undefined
+  template: Template,
+  uiLib?: PcUiLib | MobileUiLib
 ) {
   const templateDir = path.resolve(__dirname, `../templates/${template}`)
 
@@ -154,7 +164,7 @@ function generateTemplate<T extends Template> (
         if (matched.groups?.lib?.slice(1) === uiLib) {
           fs.renameSync(
             oldFile,
-            path.join(dir, file.replace(matched.groups?.lib, ''))
+            path.join(dir, file.replace(matched.groups?.lib || '', ''))
           )
         } else {
           fs.unlinkSync(oldFile)
@@ -169,9 +179,40 @@ function generateTemplate<T extends Template> (
     renameSrcFiles(destSrcPath, fs.readdirSync(destSrcPath))
     renameSrcFiles(destSrcViewPath, fs.readdirSync(destSrcViewPath))
   }
+
+  if (uiLib) {
+    const viteConfigPath = path.join(dest, 'vite.config.ts')
+    const viteConfig = fs.readFileSync(viteConfigPath, 'utf-8')
+    fs.writeFileSync(
+      viteConfigPath,
+      viteConfig
+        .replace(
+          /import +ViteComponents +from +['"]vite-plugin-components['"]/,
+          `import ViteComponents, { ${uiLibs[uiLib].resolver} } from 'vite-plugin-components'`
+        )
+        .replace(
+          /\/\/ *componentResolver/,
+          `${uiLibs[uiLib].resolver}(),`
+        )
+    )
+    const pkgJsonPath = path.join(dest, 'package.json')
+    const pkgJson = fs.readJsonSync(pkgJsonPath)
+    pkgJson.dependencies[uiLibs[uiLib].name] = uiLibs[uiLib].version
+    fs.outputJsonSync(pkgJsonPath, pkgJson, { spaces: 2 })
+  }
+
+  if (template !== 'vanilla') {
+    const indexHtmlPath = path.join(dest, 'index.html')
+    const indexHtml = fs.readFileSync(indexHtmlPath, 'utf-8')
+    fs.writeFileSync(
+      indexHtmlPath,
+      indexHtml.replace('<!--app-title-->', path.basename(dest))
+    )
+  }
 }
 
 
 init().catch((e) => {
   console.error(e)
+  process.exit(1)
 })

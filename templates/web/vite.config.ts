@@ -29,10 +29,7 @@ export default defineConfig({
       extensions: ['vue', 'ts', 'tsx'],
       globalComponentsDeclaration: true,
       customComponentResolvers: [
-        // auto importing icons
-        ViteIconsResolver({
-          componentPrefix: ''
-        })
+        ViteIconsResolver({ componentPrefix: '' })
       ]
     })
   ]

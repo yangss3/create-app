@@ -1,6 +1,0 @@
-.ant-drawer-wrapper-body {
-  @apply overflow-y-hidden flex flex-col;
-  & > .ant-drawer-body {
-    @apply flex-1 overflow-y-hidden p-0;
-  }
-}

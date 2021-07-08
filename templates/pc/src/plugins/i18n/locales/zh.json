@@ -1,29 +1,4 @@
 {
-  "welcome": "欢迎登录",
-  "profile": "个人中心",
-  "login": "登录",
-  "logout": "退出登录",
-  "username": "用户名",
-  "phone": "电话号码",
-  "email": "邮箱",
-  "operation": "操作",
-  "password": "密码",
-  "pagination": {
-    "total": "共",
-    "item": "条"
-  },
-  "role": "角色",
-  "btn": {
-    "create": "创建",
-    "delete": "删除",
-    "edit": "编辑",
-    "view": "查看",
-    "import": "导入",
-    "export": "导出",
-    "search": "查询",
-    "upload": "上传",
-    "download": "下载",
-    "confirm": "确定",
-    "cancel": "取消"
-  }
+  "home": "首页",
+  "about": "关于"
 }

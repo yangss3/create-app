@@ -1,6 +1,5 @@
-@import './ant-reset.css';
 @import './utils.css';
 
 #app {
-  height: 100vh;
+  @apply h-screen;
 }

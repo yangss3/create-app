@@ -7,25 +7,20 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@vueuse/core": "^4.11.2",
-    "@yangss/vue3-i18n": "^1.1.2",
-    "ant-design-vue": "^2.2.1",
+    "@vueuse/core": "^5.1.2",
+    "@yangss/vue3-i18n": "^1.1.4",
     "axios": "^0.21.1",
-    "lodash-es": "^4.17.21",
     "nprogress": "^0.2.0",
     "vue": "^3.1.4",
-    "vue-router": "^4.0.8",
-    "vuex": "^4.0.0"
+    "vue-router": "^4.0.8"
   },
   "devDependencies": {
     "@iconify/json": "^1.1.351",
-    "@types/lodash-es": "^4.17.4",
     "@types/node": "^14.14.31",
     "@types/nprogress": "^0.2.0",
     "@vitejs/plugin-vue": "^1.2.4",
     "@vue/compiler-sfc": "^3.1.4",
     "@yangss/eslint-config-vue": "^0.1.4",
-    "axios-mock-adapter": "^1.19.0",
     "postcss-preset-env": "^6.7.0",
     "eslint": "^7.27.0",
     "typescript": "^4.3.2",
