@@ -155,8 +155,9 @@ function generateTemplate (
       : fs.copySync(templateRootFile, path.join(dest, file))
   }
 
-  const renameSrcFiles = (dir: string, files: string[]) => {
+  const renameDirFiles = (dir: string) => {
     const regex = /^.+(?<lib>\..+)\..+$/
+    const files = fs.readdirSync(dir)
     for (const file of files) {
       const oldFile = path.join(dir, file)
       const matched = regex.exec(file)
@@ -174,10 +175,8 @@ function generateTemplate (
   }
 
   if (template === 'pc') {
-    const destSrcPath = path.join(dest, 'src')
-    const destSrcViewPath = path.join(dest, 'src/views')
-    renameSrcFiles(destSrcPath, fs.readdirSync(destSrcPath))
-    renameSrcFiles(destSrcViewPath, fs.readdirSync(destSrcViewPath))
+    renameDirFiles(path.join(dest, 'src'))
+    renameDirFiles(path.join(dest, 'src/views'))
   }
 
   if (uiLib) {
