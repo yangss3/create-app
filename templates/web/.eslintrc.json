@@ -1,8 +1,5 @@
 {
- "extends": [
-   "@yangss/eslint-config-vue"
- ],
- "rules": {
-    "@typescript-eslint/no-unused-vars": "off"
-  }
+  "extends": [
+    "@yangss/eslint-config-vue"
+  ]
 }

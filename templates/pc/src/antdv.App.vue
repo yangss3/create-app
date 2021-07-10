@@ -1,8 +1,12 @@
 <template>
   <a-layout class="h-full">
     <a-layout-header class="theme shadow-lg z-1">
-      <a-button type="link" @click="$router.push('/')">{{ t('home') }}</a-button>
-      <a-button type="link" @click="$router.push('/about')">{{ t('about') }}</a-button>
+      <a-button type="link" @click="$router.push('/')">
+        {{ t('home') }}
+      </a-button>
+      <a-button type="link" @click="$router.push('/about')">
+        {{ t('about') }}
+      </a-button>
       <span class="icons">
         <span @click="toggleTheme()">
           <ic:outline-wb-sunny v-if="isDark" />

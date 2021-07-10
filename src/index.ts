@@ -15,6 +15,11 @@ const renameRootFiles: Record<string, string> = {
   _gitignore: '.gitignore'
 }
 
+const pcRenameFiles = [
+  { dir: 'src', regex: /^(?<uiLib>.+\.)App\.vue$/ },
+  { dir: 'src/views', regex: /^(?<uiLib>.+\.)Home\.vue$/ }
+]
+
 const templates = ['web', 'pc', 'mobile', 'vanilla'] as const
 const pcUiLibs = [
   { name: 'Ant Design Vue', value: 'antdv' }
@@ -155,28 +160,29 @@ function generateTemplate (
       : fs.copySync(templateRootFile, path.join(dest, file))
   }
 
-  const renameDirFiles = (dir: string) => {
-    const regex = /^.+(?<lib>\..+)\..+$/
-    const files = fs.readdirSync(dir)
-    for (const file of files) {
-      const oldFile = path.join(dir, file)
-      const matched = regex.exec(file)
-      if (matched) {
-        if (matched.groups?.lib?.slice(1) === uiLib) {
-          fs.renameSync(
-            oldFile,
-            path.join(dir, file.replace(matched.groups?.lib || '', ''))
-          )
-        } else {
-          fs.unlinkSync(oldFile)
+  const renameFiles = (files: { dir: string, regex: RegExp }[]) => {
+    files.forEach(({ dir, regex }) => {
+      const dirPath = path.join(dest, dir)
+      const dirFiles = fs.readdirSync(dirPath)
+      for (const file of dirFiles) {
+        const matched = regex.exec(file)
+        if (matched) {
+          const oldFile = path.join(dirPath, file)
+          if (matched.groups?.uiLib === uiLib + '.') {
+            fs.renameSync(
+              oldFile,
+              path.join(dirPath, file.replace(matched.groups?.uiLib || '', ''))
+            )
+          } else {
+            fs.unlinkSync(oldFile)
+          }
         }
       }
-    }
+    })
   }
 
   if (template === 'pc') {
-    renameDirFiles(path.join(dest, 'src'))
-    renameDirFiles(path.join(dest, 'src/views'))
+    renameFiles(pcRenameFiles)
   }
 
   if (uiLib) {
