@@ -27,14 +27,22 @@
 </template>
 
 <script lang="ts" setup>
+import { onMounted } from 'vue'
 import { useDark, useToggle } from '@vueuse/core'
 import { useI18n } from '@yangss/vue3-i18n'
+import { useStore } from './store'
 const isDark = useDark()
 const toggleTheme = useToggle(isDark)
 const { t, locale } = useI18n()
+const store = useStore()
 function switchLocale () {
   locale.value = locale.value === 'zh' ? 'en' : 'zh'
+  store.updateLocale(locale.value)
 }
+onMounted(() => {
+  store.loadState()
+  locale.value = store.state.locale
+})
 </script>
 
 <style lang="postcss" scoped>
