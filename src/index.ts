@@ -22,7 +22,8 @@ const pcRenameFiles = [
 
 const templates = ['web', 'pc', 'mobile', 'vanilla'] as const
 const pcUiLibs = [
-  { name: 'Ant Design Vue', value: 'antdv' }
+  { name: 'Ant Design Vue', value: 'antdv' },
+  { name: 'Element Plus', value: 'element' }
 ] as const
 const mobileUiLibs = [
   { name: 'Vant', value: 'vant' }
@@ -32,6 +33,11 @@ const uiLibs = {
     name: 'ant-design-vue',
     version: '^2.2.1',
     resolver: 'AntDesignVueResolver'
+  },
+  element: {
+    name: 'element-plus',
+    version: '^1.0.2-beta.55',
+    resolver: 'ElementPlusResolver'
   },
   vant: {
     name: 'vant',
@@ -203,6 +209,7 @@ function generateTemplate (
     const pkgJsonPath = path.join(dest, 'package.json')
     const pkgJson = fs.readJsonSync(pkgJsonPath)
     pkgJson.dependencies[uiLibs[uiLib].name] = uiLibs[uiLib].version
+    if (uiLib === 'element') pkgJson.devDependencies.sass = '^1.35.2'
     fs.outputJsonSync(pkgJsonPath, pkgJson, { spaces: 2 })
   }
 

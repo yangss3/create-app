@@ -14,6 +14,10 @@
       <a href="https://vitejs.dev" target="_blank">Vite 2.x</a>
     </li>
     <li>
+      <vscode-icons:file-type-typescript-official />
+      <a href="https://www.typescriptlang.org" target="_blank">TypeScript</a>
+    </li>
+    <li>
       <bx:bxs-component class="text-blue-400" />
       <a href="https://2x.antdv.com/docs/vue/introduce-cn" target="_blank">Ant Design Vue 2.x</a>
     </li>
