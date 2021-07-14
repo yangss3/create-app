@@ -5,7 +5,8 @@
 - [x] Vue 3
 - [x] Vite 2
 - [x] TypeScript
-- [x] `vite-plugin-windicss` for TailwindCSS
+- [x] `Ant Design Vue` / `Element Plus` for UI Library
+- [x] `vite-plugin-windicss` for WindiCSS
 - [x] `vite-plugin-components` for component auto importing
 - [x] `vite-plugin-icons` for icons
 - [x] I18n
