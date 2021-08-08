@@ -1,4 +1,4 @@
-import { App } from 'vue'
+import type { App } from 'vue'
 
 const plugins = import.meta.globEager('./**/index.ts')
 

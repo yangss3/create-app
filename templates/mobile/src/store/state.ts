@@ -1,17 +1,11 @@
-import { Locale, User } from '@/utils/types'
+import { reactive } from 'vue'
 
 export interface State {
-  token: string
-  username: string
-  locale: Locale
-  user: User
+  locale: string
 }
 
-const state: State = {
-  token: '',
-  username: '',
-  locale: (localStorage.getItem('APP_LOCALE') as Locale) || 'zh',
-  user: {} as User
+export const initState: State = {
+  locale: 'zh'
 }
 
-export default state
+export default reactive(initState)

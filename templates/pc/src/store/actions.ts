@@ -1,4 +1,5 @@
-import state, { State, initState } from './state'
+import type { State } from './state'
+import state, { initState } from './state'
 
 export function loadState (newState?: State) {
   if (!newState) {

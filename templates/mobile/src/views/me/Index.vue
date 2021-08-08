@@ -1,50 +1,61 @@
 <template>
-  <TheLayout>
-    <TheLayoutHeader class="h-130px bg-blue-500 px-4">
-      <div class="mt-30px">
-        <img src="https://picsum.photos/100" class="h-70px rounded-lg inline-block">
-        <span class="ml-3 text-lg font-semibold text-white">Nicholas Yang</span>
+  <AppLayout>
+    <template #header>
+      <div class="h-130px leading-130px bg-blue-500 px-16px">
+        <div>
+          <img
+            src="https://picsum.photos/100"
+            class="h-70px rounded-lg inline-block"
+          >
+          <span class="ml-12px text-16px font-semibold text-white">
+            Nicholas Yang
+          </span>
+        </div>
       </div>
-    </TheLayoutHeader>
-    <TheLayoutContent class="bg-gray-100 pt-10px">
-      <van-cell
-        :title="t('language')"
-        is-link
-        :value="language"
-        @click="show = true"
-      >
-        <template #icon>
-          <ion:language class="relative top-1.3 mr-2 text-blue-500" />
-        </template>
-      </van-cell>
-      <div class="mt-8 px-5">
-        <van-button
-          block
-          round
-          type="primary"
-          @click="logout"
-        >
-          {{ t('logout') }}
-        </van-button>
+    </template>
+    <template #content>
+      <div class="h-full bg-gray-100 pt-10px space-y-32px">
+        <van-cell-group>
+          <van-cell
+            :title="$t('language')"
+            is-link
+            :value="language"
+            @click="show = true"
+          >
+            <template #icon>
+              <ion:language class="relative top-4px mr-4px text-blue-500" />
+            </template>
+          </van-cell>
+        </van-cell-group>
+        <div class="px-24px">
+          <van-button
+            block
+            round
+            type="primary"
+            @click="logout"
+          >
+            {{ $t('logout') }}
+          </van-button>
+        </div>
       </div>
 
       <van-action-sheet
         v-model:show="show"
-        :title="t('select-language')"
+        :title="$t('select-language')"
         :actions="actions"
-        :cancel-text="t('cancel')"
+        :cancel-text="$t('cancel')"
         close-on-click-action
         @select="switchLanguage"
       />
-    </TheLayoutContent>
-  </TheLayout>
+    </template>
+  </AppLayout>
 </template>
 
 <script lang="ts" setup>
 import { ref, watchEffect } from 'vue'
 import { useI18n } from '@yangss/vue3-i18n'
-import { useStore } from '@/store'
 import { useRouter } from 'vue-router'
+import { useStore } from '@/store'
 
 const show = ref(false)
 const actions = ref([
@@ -52,12 +63,8 @@ const actions = ref([
   { name: 'English', id: 'en' }
 ])
 
-const { locale, t } = useI18n()
+const { locale } = useI18n()
 const language = ref('')
-
-function switchLanguage ({ id }: { name: string; id: 'zh' | 'en' }) {
-  locale.value = id
-}
 
 watchEffect(() => {
   switch (locale.value) {
@@ -71,10 +78,15 @@ watchEffect(() => {
 })
 
 const store = useStore()
+
+function switchLanguage ({ id }: typeof actions.value[number]) {
+  locale.value = id
+  store.updateLocale(id)
+}
+
 const router = useRouter()
 
 function logout () {
-  store.commit('UPDATE_AUTH', null)
   router.replace('/login')
 }
 </script>

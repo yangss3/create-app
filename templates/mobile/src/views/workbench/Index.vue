@@ -1,15 +1,10 @@
 <template>
-  <TheLayout>
-    <TheLayoutHeader>
-      <van-nav-bar :title="t('workbench')" />
-    </TheLayoutHeader>
-    <TheLayoutContent>
+  <AppLayout>
+    <template #header>
+      <van-nav-bar :title="$t('workbench')" />
+    </template>
+    <template #content>
       Workbench
-    </TheLayoutContent>
-  </TheLayout>
+    </template>
+  </AppLayout>
 </template>
-
-<script lang="ts" setup>
-import { useI18n } from '@yangss/vue3-i18n'
-const { t } = useI18n()
-</script>

@@ -1,4 +1,5 @@
-import { App, inject, InjectionKey, readonly } from 'vue'
+import type { App, InjectionKey } from 'vue'
+import { inject, readonly } from 'vue'
 import state from './state'
 import * as actions from './actions'
 

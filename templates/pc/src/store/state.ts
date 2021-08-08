@@ -4,11 +4,8 @@ export interface State {
   locale: string
 }
 
-export const initState = {
+export const initState: State = {
   locale: 'zh'
 }
 
-const state = reactive(initState)
-
-
-export default state
+export default reactive(initState)

@@ -4,9 +4,8 @@ import vue from '@vitejs/plugin-vue'
 import WindiCSS from 'vite-plugin-windicss'
 import PostCSSPresetEnv from 'postcss-preset-env'
 import PostCSSPxToViewport from 'postcss-px-to-viewport'
-import ViteComponents from 'vite-plugin-components'
+import ViteComponents, { VantResolver } from 'vite-plugin-components'
 import ViteIcons, { ViteIconsResolver } from 'vite-plugin-icons'
-import VantResolver from './src/plugins/vantResolver'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -32,6 +31,7 @@ export default defineConfig({
     // https://github.com/antfu/vite-plugin-components
     ViteComponents({
       extensions: ['vue', 'tsx', 'ts'],
+      globalComponentsDeclaration: true,
       customComponentResolvers: [
         // auto importing icons
         ViteIconsResolver({ componentPrefix: '' }),
