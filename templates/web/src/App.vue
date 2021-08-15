@@ -10,7 +10,7 @@
         <ion:language class="mr-1" />
         {{ locale === 'zh' ? 'English' : '中文' }}
       </button>
-      <span class="text-2xl cursor-pointer" @click="toggleDark">
+      <span class="text-2xl cursor-pointer" @click="() => toggleDark()">
         <ic:outline-wb-sunny v-if="isDark" class="text-gray-200" />
         <uil:moon v-else class="text-gray-800" />
       </span>
