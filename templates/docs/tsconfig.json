@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "lib": ["esnext", "dom"],
+    "baseUrl": "."
+  },
+  "include": [
+    "docs/**/*.ts",
+    "docs/**/*.d.ts",
+    "docs/**/*.tsx",
+    "docs/**/*.vue",
+    "docs/.vitepress/**/*.ts",
+    "docs/.vitepress/**/*.d.ts",
+    "docs/.vitepress/**/*.vue",
+    "docs/.vitepress/**/*.tsx"
+  ]
+}
