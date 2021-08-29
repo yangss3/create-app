@@ -14,7 +14,7 @@ Then follow the prompts!
 You can also directly specify the project name and the template you want to use via additional command line options.
 
 ```sh
-npm init @yangss/app my-vue-app --template web
+npm init @yangss/app my-awesome-app --template web
 ```
 
 Currently supported template presets include:
@@ -22,3 +22,4 @@ Currently supported template presets include:
 - [pc](https://github.com/yangss3/create-app/blob/master/templates/pc/README.md)
 - [mobile](https://github.com/yangss3/create-app/blob/master/templates/mobile/README.md)
 - [vanilla](https://github.com/yangss3/create-app/blob/master/templates/vanilla/README.md)
+- [docs](https://github.com/yangss3/create-app/blob/master/templates/docs/README.md)
