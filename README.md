@@ -22,4 +22,4 @@ Currently supported template presets include:
 - [pc](https://github.com/yangss3/create-app/blob/master/templates/pc/README.md)
 - [mobile](https://github.com/yangss3/create-app/blob/master/templates/mobile/README.md)
 - [vanilla](https://github.com/yangss3/create-app/blob/master/templates/vanilla/README.md)
-- [docs](https://github.com/yangss3/create-app/blob/master/templates/docs/README.md)
+- [blog](https://github.com/yangss3/create-app/blob/master/templates/blog/README.md)

@@ -8,8 +8,8 @@
 - [x] markdown
 - [x] TypeScript
 - [x] `vite-plugin-windicss` for WindiCSS
-- [x] `vite-plugin-components` for component auto importing
-- [x] `vite-plugin-icons` for icons
+- [x] `unplugin-vue-components` for component auto importing
+- [x] `unplugin-icons` for icons
 - [x] Dark mode
 - [x] ESLint
 - [x] Conventional commits

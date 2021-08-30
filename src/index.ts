@@ -20,7 +20,7 @@ const pcRenameFiles = [
   { dir: 'src/views', regex: /^(?<uiLib>.+\.)Home\.vue$/ }
 ]
 
-const templates = ['web', 'pc', 'mobile', 'vanilla', 'docs'] as const
+const templates = ['web', 'pc', 'mobile', 'vanilla', 'blog'] as const
 
 const pcUiLibs = [
   { name: 'Ant Design Vue', value: 'antdv' },

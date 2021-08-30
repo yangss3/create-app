@@ -1,5 +1,5 @@
 {
-  "name": "docs-app-template",
+  "name": "blog-app-template",
   "version": "0.0.0",
   "scripts": {
     "dev": "vitepress dev",
