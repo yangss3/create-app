@@ -20,23 +20,26 @@ const pcRenameFiles = [
   { dir: 'src/views', regex: /^(?<uiLib>.+\.)Home\.vue$/ }
 ]
 
-const templates = ['web', 'pc', 'mobile', 'vanilla'] as const
+const templates = ['web', 'pc', 'mobile', 'vanilla', 'docs'] as const
+
 const pcUiLibs = [
   { name: 'Ant Design Vue', value: 'antdv' },
   { name: 'Element Plus', value: 'element' }
 ] as const
+
 const mobileUiLibs = [
   { name: 'Vant', value: 'vant' }
 ] as const
+
 const uiLibs = {
   antdv: {
     name: 'ant-design-vue',
-    version: '^2.2.2',
+    version: '^2.2.6',
     resolver: 'AntDesignVueResolver'
   },
   element: {
     name: 'element-plus',
-    version: '^1.0.2-beta.55',
+    version: '^1.1.0-beta.7',
     resolver: 'ElementPlusResolver'
   },
   vant: {
@@ -50,6 +53,7 @@ type Template = typeof templates[number]
 type PcUiLib = typeof pcUiLibs[number]['value']
 type MobileUiLib = typeof mobileUiLibs[number]['value']
 
+const isWebApp = (template: Template) => ['web', 'pc', 'mobile'].includes(template)
 
 async function init () {
   let targetDir = argv._[0]
@@ -198,8 +202,11 @@ function generateTemplate (
       viteConfigPath,
       viteConfig
         .replace(
-          /import +ViteComponents +from +['"]vite-plugin-components['"]/,
-          `import ViteComponents, { ${uiLibs[uiLib].resolver} } from 'vite-plugin-components'`
+          /import +Components +from +['"]unplugin-vue-components\/vite['"]/,
+          [
+            "import Components from 'unplugin-vue-components/vite'",
+            `import { ${uiLibs[uiLib].resolver} } from 'unplugin-vue-components/resolvers'`
+          ].join('\n')
         )
         .replace(
           /\/\/ *componentResolver/,
@@ -213,7 +220,7 @@ function generateTemplate (
     fs.outputJsonSync(pkgJsonPath, pkgJson, { spaces: 2 })
   }
 
-  if (template !== 'vanilla') {
+  if (isWebApp(template)) {
     const indexHtmlPath = path.join(dest, 'index.html')
     const indexHtml = fs.readFileSync(indexHtmlPath, 'utf-8')
     fs.writeFileSync(

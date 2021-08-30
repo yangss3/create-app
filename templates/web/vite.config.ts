@@ -3,8 +3,9 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import PostCSSPresetEnv from 'postcss-preset-env'
 import WindiCSS from 'vite-plugin-windicss'
-import ViteComponents from 'vite-plugin-components'
-import ViteIcons, { ViteIconsResolver } from 'vite-plugin-icons'
+import Icons from 'unplugin-icons/vite'
+import IconsResolver from 'unplugin-icons/resolver'
+import Components from 'unplugin-vue-components/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -22,14 +23,14 @@ export default defineConfig({
     vue(),
     // https://github.com/windicss/vite-plugin-windicss
     WindiCSS(),
-    // https://github.com/antfu/vite-plugin-icons
-    ViteIcons(),
-    // https://github.com/antfu/vite-plugin-components
-    ViteComponents({
+    // https://github.com/antfu/unplugin-icons
+    Icons(),
+    // https://github.com/antfu/unplugin-vue-components
+    Components({
       extensions: ['vue', 'ts', 'tsx'],
-      globalComponentsDeclaration: true,
-      customComponentResolvers: [
-        ViteIconsResolver({ componentPrefix: '' })
+      dts: true,
+      resolvers: [
+        IconsResolver({ componentPrefix: '' })
       ]
     })
   ]

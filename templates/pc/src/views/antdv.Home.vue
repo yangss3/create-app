@@ -29,14 +29,14 @@
     </li>
     <li>
       <clarity:plugin-solid class="text-orange-400" />
-      <a href="https://github.com/antfu/vite-plugin-components" target="_blank">
-        vite-plugin-components for component auto importing
+      <a href="https://github.com/antfu/unplugin-vue-components" target="_blank">
+        unplugin-vue-components for component auto importing
       </a>
     </li>
     <li>
       <mdi:emoticon class="text-yellow-500" />
-      <a href="https://github.com/antfu/vite-plugin-icons" target="_blank">
-        vite-plugin-icons for icons
+      <a href="https://github.com/antfu/unplugin-icons" target="_blank">
+        unplugin-icons for icons
       </a>
     </li>
     <li>

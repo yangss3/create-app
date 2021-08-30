@@ -6,8 +6,8 @@
 - [x] Vite 2
 - [x] TypeScript
 - [x] `vite-plugin-windicss` for TailwindCSS
-- [x] `vite-plugin-components` for component auto importing
-- [x] `vite-plugin-icons` for icons
+- [x] `unplugin-vue-components` for component auto importing
+- [x] `unplugin-icons` for icons
 - [x] I18n
 - [x] ESLint
 - [x] Conventional commits

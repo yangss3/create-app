@@ -1,4 +1,4 @@
-//@ts-check
+// @ts-check
 
 /**
  * @type {import('vitepress').DefaultTheme.Config['nav']}
@@ -11,7 +11,7 @@ const nav = [
     items: [
       { text: 'Vue', link: 'https://v3.vuejs.org/' },
       { text: 'Vite', link: 'https://vitejs.dev/' },
-      { text: 'Node', link: 'https://nodejs.org/en/' },
+      { text: 'Node', link: 'https://nodejs.org/en/' }
     ]
   }
 ]
@@ -24,8 +24,8 @@ const sidebar = {
     { text: 'Foo', link: '/foo/' }
   ],
   '/bar': [
-    { text: 'Getting Started', link: '/bar/getting-started'},
-    { text: 'Configuration', link: '/bar/configuration'},
+    { text: 'Getting Started', link: '/bar/getting-started' },
+    { text: 'Configuration', link: '/bar/configuration' }
   ]
 }
 

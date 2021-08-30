@@ -6,6 +6,7 @@
 - [x] Vite 2
 - [x] VitePress
 - [x] markdown
+- [x] TypeScript
 - [x] `vite-plugin-windicss` for WindiCSS
 - [x] `vite-plugin-components` for component auto importing
 - [x] `vite-plugin-icons` for icons

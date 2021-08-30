@@ -4,7 +4,7 @@ export default defineConfig({
   darkMode: 'class',
   attributify: { prefix: 'w:' },
   extract: {
-    include: ['**/*.{vue,html,js,ts,md}', '.vitepress/**/*.{vue,html,js,ts,md}'],
+    include: ['**/*.{vue,ts,md}', '.vitepress/**/*.{vue,ts,md}'],
     exclude: ['node_modules', '.git']
   }
 })
