@@ -19,21 +19,45 @@
   background: var(--c-divider-dark);
 }
 
-.icon-button {
-  line-height: 0;
-  font-size: 1rem;
-  border: 0;
-  background: none;
-  color: var(--c-text);
-  opacity: 0.8;
-  cursor: pointer;
-  &:focus {
-    outline: none;
+html.dark {
+  & .custom-block {
+    &.tip {
+      background-color: #f3f5f71a;
+    }
+    &.info {
+      background-color: #f3f5f71a;
+    }
+    &.warning {
+      background-color: #ffe5641a;
+    }
+    &.danger {
+      & .custom-block-title {
+        color: #900;
+      }
+      color: #440303;
+      background-color: #ffe6e61a;
+    }
   }
-  &:hover {
-    opacity: 1;
+  & table {
+    color: var(--c-text-draken);
+    & th, & td {
+      border-color: #4e5a57;
+    }
+    & tr:nth-child(2n) {
+      background-color: #191919;
+    }
   }
-  & svg {
-    margin: auto;
+}
+
+@media (width <= 720px) {
+  .home-content {
+    max-width: 620px !important;
+    padding: 0 1.5rem !important;
+  }
+}
+
+@media (width >= 720px) {
+  .sidebar > .sidebar-links > .sidebar-link + .sidebar-link {
+    padding-top: 0.5rem;
   }
 }

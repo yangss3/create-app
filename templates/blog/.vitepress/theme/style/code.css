@@ -5,6 +5,8 @@
   --prism-font-family: var(--font-family-mono);
   --prism-font-size: 0.85rem;
   --prism-marker-opacity: 0;
+  --prism-block-padding-x: 1.1rem;
+  --prism-block-padding-y: 1.0rem;
 }
 
 html:not(.dark) {
@@ -76,6 +78,9 @@ a > code {
 
 div[class*='language-'] {
   position: relative;
+}
+div[class*='language-']::before {
+  top: 0.45rem;
 }
 
 div[class*='language-'] pre {

@@ -1,9 +1,8 @@
-
 <template>
-  <button aria-label="Toggle Theme" class="icon-button" @click="toggle">
+  <IconBtn @click="toggle">
     <ri-moon-line v-show="isDark" />
     <ri-sun-line v-show="!isDark" />
-  </button>
+  </IconBtn>
 </template>
 
 <script setup lang='ts'>

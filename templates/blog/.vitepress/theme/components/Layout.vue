@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <template #navbar-search>
-      <div class="flex space-x-4 ml-4">
+      <div class="flex space-x-5 ml-5">
         <DarkModeSwitch />
       </div>
     </template>

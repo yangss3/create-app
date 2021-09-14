@@ -1,15 +1,16 @@
 :root {
   --scrollbar-width: 6px;
+  --c-brand: #0ebdd1fc;
 }
 
 html.dark {
   --c-bg: #111;
   --c-bg-semi: rgba(17,17,17,0.8);
   --c-bg-secondary: #222;
-  --c-text: #f0f6fc;
+  --c-text: #ced4da;
   --c-text-light: #f0f6fc;
   --c-text-lighter: #ffffff;
-
+  --c-text-draken: #a6b3b0;
   --c-divider-light: rgba(200, 200, 200, .12);
   --c-divider-dark: rgba(200, 200, 200, .48);
   --code-bg-color: #191919;
