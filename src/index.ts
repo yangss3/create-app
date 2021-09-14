@@ -34,7 +34,7 @@ const mobileUiLibs = [
 const uiLibs = {
   antdv: {
     name: 'ant-design-vue',
-    version: '^2.2.6',
+    version: '^2.2.7',
     resolver: 'AntDesignVueResolver'
   },
   element: {
