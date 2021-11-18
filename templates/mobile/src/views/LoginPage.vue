@@ -28,9 +28,6 @@
 </template>
 
 <script lang="ts" setup>
-import { useRouter } from 'vue-router'
-import { reactive } from 'vue'
-
 const form = reactive({
   username: '',
   password: ''

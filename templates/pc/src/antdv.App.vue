@@ -2,10 +2,10 @@
   <a-layout class="h-full">
     <a-layout-header class="theme shadow-lg z-1">
       <a-button type="link" @click="$router.push('/')">
-        {{ t('home') }}
+        {{ $t('home') }}
       </a-button>
       <a-button type="link" @click="$router.push('/about')">
-        {{ t('about') }}
+        {{ $t('about') }}
       </a-button>
       <span class="icons">
         <span @click="toggleTheme()">
@@ -27,13 +27,12 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue'
 import { useDark, useToggle } from '@vueuse/core'
 import { useI18n } from '@yangss/vue3-i18n'
 import { useStore } from './store'
 const isDark = useDark()
 const toggleTheme = useToggle(isDark)
-const { t, locale } = useI18n()
+const { locale } = useI18n()
 const store = useStore()
 function switchLocale () {
   locale.value = locale.value === 'zh' ? 'en' : 'zh'

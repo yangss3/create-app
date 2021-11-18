@@ -52,9 +52,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watchEffect } from 'vue'
 import { useI18n } from '@yangss/vue3-i18n'
-import { useRouter } from 'vue-router'
 import { useStore } from '@/store'
 
 const show = ref(false)

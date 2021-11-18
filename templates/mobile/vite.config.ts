@@ -7,6 +7,7 @@ import PostCSSPxToViewport from 'postcss-px-to-viewport'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import Components from 'unplugin-vue-components/vite'
+import AutoImport from 'unplugin-auto-import/vite'
 import { VantResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
@@ -40,6 +41,10 @@ export default defineConfig({
         // auto importing vant components
         VantResolver()
       ]
+    }),
+    // https://github.com/antfu/unplugin-auto-import
+    AutoImport({
+      imports: ['vue', 'vue-router']
     })
   ]
 })

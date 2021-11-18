@@ -5,7 +5,7 @@
       msg="A starter template based on Vite 2 and Vue 3 with a rich of features"
     />
     <p class="space-x-4 mt-5">
-      <span class="text-blue-500 text-xl">{{ t('hello') }}</span>
+      <span class="text-blue-500 text-xl">{{ $t('hello') }}</span>
       <button class="btn" @click="switchLocale">
         <ion:language class="mr-1" />
         {{ locale === 'zh' ? 'English' : '中文' }}
@@ -31,7 +31,7 @@
 import { useI18n } from '@yangss/vue3-i18n'
 import { useDark, useToggle } from '@vueuse/core'
 
-const { t, locale } = useI18n()
+const { locale } = useI18n()
 function switchLocale () {
   locale.value = locale.value === 'zh' ? 'en' : 'zh'
 }

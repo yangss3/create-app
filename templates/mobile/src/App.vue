@@ -11,7 +11,6 @@
 <script lang="ts" setup>
 import { useCachedPages } from '@/composable/common'
 import { useI18n } from '@yangss/vue3-i18n'
-import { onMounted } from 'vue'
 import { useStore } from './store'
 const cachedPages = useCachedPages()
 const store = useStore()

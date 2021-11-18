@@ -51,7 +51,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
 const msg = ref('Vue 3 + Vite 2 + Element Plus + TypeScript + WindiCSS')
 </script>
 
