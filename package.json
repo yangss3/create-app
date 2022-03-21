@@ -10,7 +10,7 @@
   "scripts": {
     "build": "tsup src/index.ts --format esm",
     "lint": "eslint src/* --fix",
-    "release": "pnpm build && bumpp --tag --push && pnpm publish",
+    "release": "pnpm build && bumpp --tag --push --no-verify && pnpm publish",
     "prepare": "husky install"
   },
   "publishConfig": {
