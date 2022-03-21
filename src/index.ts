@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 import minimist from 'minimist'
-import { prompt } from 'inquirer'
+import inquirer from 'inquirer'
 import path from 'path'
 import fs from 'fs-extra'
 import { exec as execCb } from 'child_process'
 import { promisify } from 'util'
 import ora from 'ora'
 
+const { prompt } = inquirer
 const spinner = ora()
 const exec = promisify(execCb)
 const argv = minimist(process.argv.slice(2))
@@ -20,7 +21,7 @@ const pcRenameFiles = [
   { dir: 'src/views', regex: /^(?<uiLib>.+\.)Home\.vue$/ }
 ]
 
-const templates = ['web', 'pc', 'mobile', 'vanilla', 'blog'] as const
+const templates = ['web', 'pc', 'mobile', 'blog', 'node'] as const
 
 const pcUiLibs = [
   { name: 'Ant Design Vue', value: 'antdv' },
@@ -49,11 +50,34 @@ const uiLibs = {
   }
 } as const
 
+const agentCli = {
+  pnpm: {
+    install: 'pnpm install',
+    add: 'pnpm add',
+    run: 'pnpm',
+    exec: 'pnpm exec'
+  },
+  yarn: {
+    install: 'yarn install',
+    add: 'yarn add',
+    run: 'yarn run',
+    exec: 'yarn exec'
+  },
+  npm: {
+    install: 'npm install',
+    add: 'npm install',
+    run: 'npm run',
+    exec: 'npx'
+  }
+} as const
+
 type Template = typeof templates[number]
 type PcUiLib = typeof pcUiLibs[number]['value']
 type MobileUiLib = typeof mobileUiLibs[number]['value']
 
 const isWebApp = (template: Template) => ['web', 'pc', 'mobile'].includes(template)
+const isNodeApp = (template: Template) => template === 'node'
+const isPcApp = (template: Template) => template === 'pc'
 
 async function init () {
   let targetDir = argv._[0]
@@ -106,8 +130,10 @@ async function init () {
     template = t
   }
 
+
   let uiLib: PcUiLib | MobileUiLib | undefined
-  if (template === 'pc') {
+
+  if (isPcApp(template)) {
     const { ui } = await prompt({
       type: 'list',
       name: 'ui',
@@ -119,30 +145,25 @@ async function init () {
 
   generateTemplate(dest, template, uiLib)
 
+  const agent = agentCli[await getAgent()]
+
   spinner.start('Install deps...')
-  const installOpt = await exec(`cd ${dest} && npm install`)
+  const installOpt = await exec(`cd ${dest} && ${agent.install}`)
   spinner.succeed('Install deps completed')
   console.log(installOpt.stdout)
 
   const initGitRepo = [
     `cd ${dest}`,
-    'npm install @yangss/init-git-repo -D',
-    'npx init-git-repo'
+    `${agent.add} @yangss/init-git-repo -D`,
+    `${agent.exec} init-git-repo -t ${isNodeApp(template) ? 'ts' : 'vue'}`
   ]
   spinner.start('Initialize git repo...')
   const initOpt = await exec(initGitRepo.join('&&'))
   spinner.succeed('Initialize git repo completed')
   console.log(initOpt.stdout)
 
-  const pkgJsonPath = path.join(dest, 'package.json')
-  const pkgJson = fs.readJsonSync(pkgJsonPath)
-  pkgJson.name = path.basename(dest)
-  pkgJson['lint-staged'] = template === 'vanilla'
-    ? { '*.(ts|js)': 'eslint --fix' }
-    : { '*.(ts|tsx|vue)': 'eslint --fix' }
-  fs.outputJsonSync(pkgJsonPath, pkgJson, { spaces: 2 })
 
-  if (template === 'vanilla') {
+  if (isNodeApp(template)) {
     console.log('\nDone.')
     console.log()
   } else {
@@ -150,7 +171,7 @@ async function init () {
     if (dest !== cwd) {
       console.log(` cd ${path.relative(cwd, dest)}`)
     }
-    console.log(' npm run dev')
+    console.log(` ${agent.run} dev`)
     console.log()
   }
 }
@@ -191,7 +212,7 @@ function generateTemplate (
     })
   }
 
-  if (template === 'pc') {
+  if (isPcApp(template)) {
     renameFiles(pcRenameFiles)
   }
 
@@ -204,7 +225,7 @@ function generateTemplate (
         .replace(
           /import +Components +from +['"]unplugin-vue-components\/vite['"]/,
           [
-            "import Components from 'unplugin-vue-components/vite'",
+            'import Components from \'unplugin-vue-components/vite\'',
             `import { ${uiLibs[uiLib].resolver} } from 'unplugin-vue-components/resolvers'`
           ].join('\n')
         )
@@ -227,6 +248,20 @@ function generateTemplate (
       indexHtmlPath,
       indexHtml.replace('<!--app-title-->', path.basename(dest))
     )
+  }
+}
+
+async function getAgent () {
+  try {
+    await exec('pnpm --version')
+    return 'pnpm'
+  } catch (error) {
+    try {
+      await exec('yarn --version')
+      return 'yarn'
+    } catch (error) {
+      return 'npm'
+    }
   }
 }
 
