@@ -7,7 +7,7 @@
     "dev": "esno src/index.ts",
     "build": "tsup src/index.ts --format esm,cjs",
     "lint": "eslint src/* --fix",
-    "release": "pnpm build && bumpp --tag --push && pnpm publish"
+    "release": "pnpm build && bumpp --tag --push --no-verify && pnpm publish"
   },
   "devDependencies": {
     "@types/node": "^17.0.21",
