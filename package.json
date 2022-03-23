@@ -2,13 +2,16 @@
   "name": "@yangss/create-app",
   "version": "0.2.9",
   "description": "Scaffolding Vite & TS Projects with Some Pre-configured Features",
-  "main": "./dist/index.js",
+  "exports": "./dist/index.js",
   "type": "module",
   "bin": {
     "create-app": "dist/index.js"
   },
+  "engines": {
+    "node": ">=14.8.0"
+  },
   "scripts": {
-    "build": "tsup src/index.ts --format esm",
+    "build": "tsup src/index.ts --format esm --target esnext",
     "lint": "eslint src/* --fix",
     "release": "pnpm build && bumpp --tag --push --no-verify && pnpm publish",
     "prepare": "husky install"
@@ -36,20 +39,20 @@
     "@types/fs-extra": "^9.0.13",
     "@types/inquirer": "^8.2.0",
     "@types/minimist": "^1.2.2",
-    "@types/node": "^17.0.21",
-    "@yangss/eslint-config-vue": "^0.2.3",
+    "@types/node": "^17.0.22",
+    "@yangss/eslint-config-vue": "^0.2.6",
     "@yangss/init-git-repo": "^0.0.13",
+    "bumpp": "^7.1.1",
     "eslint": "^8.11.0",
     "husky": "^7.0.4",
     "lint-staged": "^12.3.7",
-    "typescript": "^4.6.2",
     "tsup": "^5.12.1",
-    "bumpp": "^7.1.1"
+    "typescript": "^4.6.2"
   },
   "dependencies": {
     "fs-extra": "^10.0.1",
     "inquirer": "^8.2.1",
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.6",
     "ora": "^6.1.0"
   },
   "lint-staged": {
