@@ -1,2 +1,1 @@
-const str = 'hello world'
-console.log(str)
+export * from './math'

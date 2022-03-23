@@ -7,11 +7,13 @@ import { exec as execCb } from 'child_process'
 import { promisify } from 'util'
 import ora from 'ora'
 
+
 const { prompt } = inquirer
 const spinner = ora()
 const exec = promisify(execCb)
 const argv = minimist(process.argv.slice(2))
 const cwd = process.cwd()
+
 const renameRootFiles: Record<string, string> = {
   _gitignore: '.gitignore'
 }
@@ -55,19 +57,22 @@ const agentCli = {
     install: 'pnpm install',
     add: 'pnpm add',
     run: 'pnpm',
-    exec: 'pnpm exec'
+    exec: 'pnpm exec',
+    publish: 'pnpm publish'
   },
   yarn: {
     install: 'yarn install',
     add: 'yarn add',
     run: 'yarn run',
-    exec: 'yarn exec'
+    exec: 'yarn exec',
+    publish: 'yarn publish'
   },
   npm: {
     install: 'npm install',
     add: 'npm install',
     run: 'npm run',
-    exec: 'npx'
+    exec: 'npx',
+    publish: 'npm publish'
   }
 } as const
 
@@ -79,8 +84,14 @@ const isWebApp = (template: Template) => ['web', 'pc', 'mobile'].includes(templa
 const isNodeApp = (template: Template) => template === 'node'
 const isPcApp = (template: Template) => template === 'pc'
 
-async function init () {
-  let targetDir = argv._[0]
+let targetDir = argv._[0]
+let template: Template = argv.t || argv.template
+let lintMsg: boolean | undefined = argv['lint-msg']
+let uiLib: PcUiLib | MobileUiLib | undefined
+
+const agent = agentCli[await getAgent()]
+
+async function run() {
 
   if (!targetDir) {
     const { name } = await prompt({
@@ -98,8 +109,8 @@ async function init () {
     const { yes } = await prompt({
       type: 'confirm',
       name: 'yes',
-      message: `Target directory ${targetDir} is not empty.\n` +
-      'Remove existing files and continue?',
+      message: `Target directory ${targetDir} is not empty.\n`
+      + 'Remove existing files and continue?',
       default: true
     })
     if (yes) {
@@ -111,10 +122,8 @@ async function init () {
     }
   }
 
-  let template: Template = argv.t || argv.template
   let message = 'Select a template:'
   let isValidTemplate = false
-
   if (typeof template === 'string') {
     isValidTemplate = templates.includes(template)
     message = `${template} isn't a valid template. Please choose from below:`
@@ -130,9 +139,6 @@ async function init () {
     template = t
   }
 
-
-  let uiLib: PcUiLib | MobileUiLib | undefined
-
   if (isPcApp(template)) {
     const { ui } = await prompt({
       type: 'list',
@@ -143,25 +149,17 @@ async function init () {
     uiLib = ui
   }
 
-  generateTemplate(dest, template, uiLib)
+  if (lintMsg === undefined) {
+    const { lint } = await prompt({
+      type: 'confirm',
+      name: 'lint',
+      message: 'Lint commit message?',
+      default: true
+    })
+    lintMsg = lint
+  }
 
-  const agent = agentCli[await getAgent()]
-
-  spinner.start('Install deps...')
-  const installOpt = await exec(`cd ${dest} && ${agent.install}`)
-  spinner.succeed('Install deps completed')
-  console.log(installOpt.stdout)
-
-  const initGitRepo = [
-    `cd ${dest}`,
-    `${agent.add} @yangss/init-git-repo -D`,
-    `${agent.exec} init-git-repo -t ${isNodeApp(template) ? 'ts' : 'vue'}`
-  ]
-  spinner.start('Initialize git repo...')
-  const initOpt = await exec(initGitRepo.join('&&'))
-  spinner.succeed('Initialize git repo completed')
-  console.log(initOpt.stdout)
-
+  generateTemplate(dest)
 
   if (isNodeApp(template)) {
     console.log('\nDone.')
@@ -171,18 +169,15 @@ async function init () {
     if (dest !== cwd) {
       console.log(` cd ${path.relative(cwd, dest)}`)
     }
+    console.log(` ${agent.install}`)
     console.log(` ${agent.run} dev`)
     console.log()
   }
 }
 
-function generateTemplate (
-  dest: string,
-  template: Template,
-  uiLib?: PcUiLib | MobileUiLib
-) {
-  const templateDir = path.resolve(__dirname, `../templates/${template}`)
 
+function copyFiles(dest: string) {
+  const templateDir = path.resolve(__dirname, `../templates/${template}`)
   const files = fs.readdirSync(templateDir)
   for (const file of files) {
     const templateRootFile = path.join(templateDir, file)
@@ -190,30 +185,47 @@ function generateTemplate (
       ? fs.copySync(templateRootFile, path.join(dest, renameRootFiles[file]))
       : fs.copySync(templateRootFile, path.join(dest, file))
   }
+}
 
-  const renameFiles = (files: { dir: string, regex: RegExp }[]) => {
-    files.forEach(({ dir, regex }) => {
-      const dirPath = path.join(dest, dir)
-      const dirFiles = fs.readdirSync(dirPath)
-      for (const file of dirFiles) {
-        const matched = regex.exec(file)
-        if (matched) {
-          const oldFile = path.join(dirPath, file)
-          if (matched.groups?.uiLib === uiLib + '.') {
-            fs.renameSync(
-              oldFile,
-              path.join(dirPath, file.replace(matched.groups?.uiLib || '', ''))
-            )
-          } else {
-            fs.unlinkSync(oldFile)
-          }
+function renameFiles(dest: string) {
+  pcRenameFiles.forEach(({ dir, regex }) => {
+    const dirPath = path.join(dest, dir)
+    const dirFiles = fs.readdirSync(dirPath)
+    for (const file of dirFiles) {
+      const matched = regex.exec(file)
+      if (matched) {
+        const oldFile = path.join(dirPath, file)
+        if (matched.groups?.uiLib === uiLib + '.') {
+          fs.renameSync(
+            oldFile,
+            path.join(dirPath, file.replace(matched.groups?.uiLib || '', ''))
+          )
+        } else {
+          fs.unlinkSync(oldFile)
         }
       }
-    })
-  }
+    }
+  })
+}
+
+
+function generateTemplate(dest: string) {
+  copyFiles(dest)
 
   if (isPcApp(template)) {
-    renameFiles(pcRenameFiles)
+    renameFiles(dest)
+  }
+
+  const pkgJsonPath = path.join(dest, 'package.json')
+  const pkgJson = fs.readJsonSync(pkgJsonPath)
+
+  if (!lintMsg) {
+    fs.unlinkSync(path.join(dest, '.husky/commit-msg'))
+    delete pkgJson.devDependencies['@yangss/lint-msg']
+  }
+
+  if (isNodeApp(template)) {
+    pkgJson.scripts.release = `${agent.run} build && bumpp --tag --push --no-verify && ${agent.publish}`
   }
 
   if (uiLib) {
@@ -234,12 +246,14 @@ function generateTemplate (
           `${uiLibs[uiLib].resolver}(),`
         )
     )
-    const pkgJsonPath = path.join(dest, 'package.json')
-    const pkgJson = fs.readJsonSync(pkgJsonPath)
     pkgJson.dependencies[uiLibs[uiLib].name] = uiLibs[uiLib].version
-    if (uiLib === 'element') pkgJson.devDependencies.sass = '^1.35.2'
-    fs.outputJsonSync(pkgJsonPath, pkgJson, { spaces: 2 })
+    if (uiLib === 'element')
+      pkgJson.devDependencies.sass = '^1.35.2'
   }
+
+  pkgJson.name = targetDir
+
+  fs.outputJsonSync(pkgJsonPath, pkgJson, { spaces: 2 })
 
   if (isWebApp(template)) {
     const indexHtmlPath = path.join(dest, 'index.html')
@@ -251,7 +265,7 @@ function generateTemplate (
   }
 }
 
-async function getAgent () {
+async function getAgent() {
   try {
     await exec('pnpm --version')
     return 'pnpm'
@@ -266,7 +280,7 @@ async function getAgent () {
 }
 
 
-init().catch((e) => {
+run().catch((e) => {
   console.error(e)
   process.exit(1)
 })

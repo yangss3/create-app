@@ -2,20 +2,32 @@
   "name": "node-app",
   "version": "0.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "exports": "./dist/index.js",
   "scripts": {
     "dev": "esno src/index.ts",
     "build": "tsup src/index.ts --format esm,cjs",
-    "lint": "eslint src/* --fix",
-    "release": "pnpm build && bumpp --tag --push --no-verify && pnpm publish"
+    "test": "vitest --globals",
+    "test:run": "vitest run",
+    "release": "pnpm build && bumpp --tag --push --no-verify && pnpm publish",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@types/node": "^17.0.21",
-    "@yangss/eslint-config-ts": "^0.2.3",
+    "@yangss/eslint-config-ts": "^0.2.6",
+    "@yangss/lint-msg": "^0.0.2",
     "eslint": "^8.11.0",
     "typescript": "^4.6.2",
     "esno": "^0.14.1",
     "tsup": "^5.12.1",
-    "bumpp": "^7.1.1"
+    "bumpp": "^7.1.1",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.7",
+    "vitest": "^0.7.8"
+  },
+  "lint-staged": {
+    "*.(js|ts|tsx)": "eslint --fix"
+  },
+  "engines": {
+    "node": ">=14.8.0"
   }
 }
