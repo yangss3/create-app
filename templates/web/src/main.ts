@@ -1,13 +1,12 @@
-import 'virtual:windi.css'
-import 'virtual:windi-devtools'
+import 'uno.css'
+import '@unocss/reset/tailwind.css'
 import './assets/styles/base.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import plugins from './plugins'
 
 const app = createApp(App)
 
-app.use(router).use(plugins)
+app.use(router)
 
 router.isReady().then(() => app.mount('#app'))

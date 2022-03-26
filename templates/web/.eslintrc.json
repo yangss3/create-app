@@ -1,5 +1,6 @@
 {
   "extends": [
-    "@yangss/eslint-config-vue"
+    "@yangss/eslint-config-vue",
+    "./.eslintrc-auto-import.json"
   ]
 }

@@ -1,12 +1,10 @@
 import path from 'path'
 import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import Vue from '@vitejs/plugin-vue'
 import PostCSSPresetEnv from 'postcss-preset-env'
-import WindiCSS from 'vite-plugin-windicss'
-import Icons from 'unplugin-icons/vite'
-import IconsResolver from 'unplugin-icons/resolver'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
+import Unocss from 'unocss/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -21,22 +19,22 @@ export default defineConfig({
     }
   },
   plugins: [
-    vue(),
-    // https://github.com/windicss/vite-plugin-windicss
-    WindiCSS(),
-    // https://github.com/antfu/unplugin-icons
-    Icons(),
+    Vue(),
+    // https://github.com/unocss/unocss
+    Unocss(),
     // https://github.com/antfu/unplugin-vue-components
     Components({
       extensions: ['vue', 'ts', 'tsx'],
-      dts: true,
-      resolvers: [
-        IconsResolver({ componentPrefix: '' })
-      ]
+      dts: './components.d.ts'
     }),
     // https://github.com/antfu/unplugin-auto-import
     AutoImport({
-      imports: ['vue']
+      imports: ['vue', 'vue-router'],
+      eslintrc: {
+        enabled: true,
+        filepath: './.eslintrc-auto-import.json'
+      },
+      dts: './auto-imports.d.ts'
     })
   ]
 })
