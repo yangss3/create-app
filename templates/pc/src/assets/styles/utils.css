@@ -1,3 +1,11 @@
 .theme {
-  @apply bg-white text-gray-800 dark:(bg-gray-800 text-gray-200) !important;
+  @apply !bg-white text-gray-800 dark:(!bg-gray-800 text-gray-200);
+}
+
+.theme-text-color {
+  @apply text-gray-800 dark:(text-gray-200);
+}
+
+.theme-bg-color {
+  @apply bg-gray-800 dark:(bg-gray-200);
 }

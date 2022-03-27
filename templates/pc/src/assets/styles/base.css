@@ -3,3 +3,11 @@
 #app {
   @apply h-screen;
 }
+
+h1, h2, h3, h4, h5, h6, p {
+  @apply text-gray-800 dark:(text-gray-200);
+}
+
+a {
+  @apply text-cyan-500 hover:text-blue-600;
+}

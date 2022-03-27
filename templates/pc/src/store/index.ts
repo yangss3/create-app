@@ -1,23 +1,5 @@
-import type { App, InjectionKey } from 'vue'
-import { inject, readonly } from 'vue'
-import state from './state'
-import * as actions from './actions'
+import { createPinia } from 'pinia'
 
-export const store = {
-  state: readonly(state),
-  ...actions
-}
+const pinia = createPinia()
 
-const storeKey: InjectionKey<typeof store> = Symbol('store')
-
-export function createStore () {
-  return (app: App) => {
-    app.provide(storeKey, store)
-  }
-}
-
-export function useStore () {
-  return inject(storeKey)!
-}
-
-export default createStore()
+export default pinia
