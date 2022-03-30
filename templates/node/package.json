@@ -8,12 +8,13 @@
     "build": "tsup src/index.ts --format esm,cjs",
     "test": "vitest --globals",
     "test:run": "vitest run",
+    "lint": "eslint --ext .ts,.js --fix",
     "release": "pnpm build && bumpp --tag --push --no-verify && pnpm publish",
     "prepare": "husky install"
   },
   "devDependencies": {
     "@types/node": "^17.0.21",
-    "@yangss/eslint-config-ts": "^0.2.6",
+    "@yangss/eslint-config-ts": "^0.2.7",
     "@yangss/lint-msg": "^0.0.2",
     "eslint": "^8.11.0",
     "typescript": "^4.6.2",
