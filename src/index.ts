@@ -86,7 +86,8 @@ const isPcApp = (template: Template) => template === 'pc'
 
 let targetDir = argv._[0]
 let template: Template = argv.t || argv.template
-let lintMsg: boolean | undefined = argv['lint-msg']
+const lint: boolean = argv.l || argv.lint
+let lintOptions: string[] = []
 let uiLib: PcUiLib | MobileUiLib | undefined
 
 const agent = agentCli[await getAgent()]
@@ -149,14 +150,28 @@ async function run() {
     uiLib = ui
   }
 
-  if (lintMsg === undefined) {
-    const { lint } = await prompt({
+
+  if (lint) {
+    lintOptions = ['lint-staged', 'lint-msg']
+  } else {
+    const { yes } = await prompt({
       type: 'confirm',
-      name: 'lint',
-      message: 'Lint commit message?',
-      default: true
+      name: 'yes',
+      message: 'Integrate linting?',
+      default: false
     })
-    lintMsg = lint
+    if (yes) {
+      const { opts } = await prompt({
+        type: 'checkbox',
+        name: 'opts',
+        message: 'Choose linting types:',
+        choices: [
+          { name: 'Lint staged files', value: 'lint-staged' },
+          { name: 'Lint commit message', value: 'lint-msg' }
+        ]
+      })
+      lintOptions = opts
+    }
   }
 
   generateTemplate(dest)
@@ -219,9 +234,22 @@ function generateTemplate(dest: string) {
   const pkgJsonPath = path.join(dest, 'package.json')
   const pkgJson = fs.readJsonSync(pkgJsonPath)
 
-  if (!lintMsg) {
-    fs.unlinkSync(path.join(dest, '.husky/commit-msg'))
+  if (!lintOptions.length) {
+    fs.removeSync(path.join(dest, '.husky'))
     delete pkgJson.devDependencies['@yangss/lint-msg']
+    delete pkgJson.devDependencies['husky']
+    delete pkgJson.devDependencies['lint-staged']
+    delete pkgJson['lint-staged']
+    delete pkgJson.scripts.prepare
+  } else if (lintOptions.length === 1) {
+    if (lintOptions[0] === 'lint-staged') {
+      fs.unlinkSync(path.join(dest, '.husky/commit-msg'))
+      delete pkgJson.devDependencies['@yangss/lint-msg']
+    } else if (lintOptions[0] === 'lint-msg') {
+      fs.unlinkSync(path.join(dest, '.husky/pre-commit'))
+      delete pkgJson.devDependencies['lint-staged']
+      delete pkgJson['lint-staged']
+    }
   }
 
   if (isNodeApp(template)) {
